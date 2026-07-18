@@ -18,14 +18,17 @@ class Message(BaseModel):
     content: str
 
 
-class ToolDefinition(BaseModel):
+
+class GenerationRequest(BaseModel):
     """
-    A tool available to the language model.
+    Standardized request for text generation.
     """
 
-    name: str
-    description: str
-    parameters: dict[str, Any] = Field(default_factory=dict)
+    messages: list[Message | ToolOutput]
+
+    tool_definitions: list[dict[str, Any]] = Field(default_factory=list)
+
+    max_tokens: int | None = None
 
 
 class ToolCall(BaseModel):
@@ -33,36 +36,23 @@ class ToolCall(BaseModel):
     A tool invocation requested by the language model.
     """
 
+    id: str
     name: str
     arguments: dict[str, Any] = Field(default_factory=dict)
 
 
-class GenerationRequest(BaseModel):
+class ToolOutput(BaseModel):
     """
-    Standardized request for text generation.
+    Tool result, our answer to the tool call
     """
+    # Natively required by openai
+    type: str = "function_call_output"
 
-    messages: list[Message]
+    # Call ID, must match the tool call ID
+    call_id: str
 
-    tools: list[ToolDefinition] = Field(default_factory=list)
-
-    response_schema: dict[str, Any] | None = None
-
-    temperature: float = 0.2
-
-    max_tokens: int | None = None
-
-
-class TokenUsage(BaseModel):
-    """
-    Token usage reported by the provider.
-    """
-
-    input_tokens: int = 0
-
-    output_tokens: int = 0
-
-    total_tokens: int = 0
+    # Tool output
+    output: str
 
 
 class GenerationResponse(BaseModel):
@@ -70,10 +60,10 @@ class GenerationResponse(BaseModel):
     Standardized response returned by all providers.
     """
 
-    content: str
+    previous_response_id: str | None = None
+
+    response: str
 
     tool_calls: list[ToolCall] = Field(default_factory=list)
-
-    usage: TokenUsage | None = None
 
     finish_reason: str | None = None
