@@ -19,7 +19,6 @@ COPY pyproject.toml uv.lock ./
 
 RUN uv sync \
     --frozen \
-    --no-dev \
     --no-install-project
 
 # Copy project after dependencies so source changes don't invalidate the cache.
