@@ -46,3 +46,8 @@
 - Managed inference with automatic scalability.
 - Allows the project to focus on application architecture instead of model hosting.
 - Easily replaceable through an LLM abstraction layer.
+
+## OpenAI conversation strategy - Item Centric:
+
+- Item Centric (Provider-Managed) is newest and modern approach, it's popular for AI development. Older approach: Message Centric (Client-Managed)
+- Saving effort for managing conversation flow, formating, prompt caching. Reduce development complexity.
