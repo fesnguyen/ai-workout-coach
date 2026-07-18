@@ -7,7 +7,7 @@ from __future__ import annotations
 from openai import AsyncOpenAI
 
 from app.llm.base_generator import BaseGenerator
-from app.llm.schemas import (
+from app.llm.llm_schemas import (
     GenerationRequest,
     GenerationResponse,
     Message,

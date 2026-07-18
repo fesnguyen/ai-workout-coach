@@ -5,7 +5,7 @@ from fastapi import APIRouter, FastAPI, HTTPException, Request
 from time import perf_counter
 
 from app.application_container import ApplicationContainer
-from app.llm.schemas import (
+from app.llm.llm_schemas import (
     GenerationRequest,
     Message,
 )
