@@ -52,7 +52,7 @@ class Agent:
             # From the second time, only send the last message + previous_response_id
             response: GenerationResponse = await self._generator.generate(
                 GenerationRequest(
-                    messages=[history if i == 0 else history[-1]],
+                    messages=(history if i == 0 else [history[-1]]),
                     tool_definitions=self._tool_executor.tool_definitions,
                 ),
                 previous_response_id
