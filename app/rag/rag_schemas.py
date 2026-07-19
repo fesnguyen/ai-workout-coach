@@ -3,6 +3,7 @@ Schemas used by the Retrieval-Augmented Generation (RAG) pipeline.
 """
 
 from __future__ import annotations
+from pathlib import Path
 
 from pydantic import BaseModel, Field
 
@@ -16,7 +17,7 @@ class Document(BaseModel):
 
     title: str
 
-    source: str
+    source: Path
 
     content: str
 
@@ -30,7 +31,7 @@ class Chunk(BaseModel):
 
     document_id: str
 
-    source: str
+    source: Path
 
     index: int
 
@@ -66,3 +67,18 @@ class RAGResponse(BaseModel):
     answer: str
 
     sources: list[Source] = Field(default_factory=list)
+
+
+class IndexedDocument(BaseModel):
+    """
+    Use for Incremental Indexing
+    """
+    source: Path
+    hash: str
+
+
+class IndexPlan(BaseModel):
+    added: list[IndexedDocument]
+    modified: list[IndexedDocument]
+    deleted: list[Path]
+    unchanged: list[IndexedDocument]

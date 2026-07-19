@@ -80,18 +80,21 @@ class DocumentChunker:
 
         for document in documents:
             chunks.extend(
-                self._chunk_document(document)
+                await self.chunk_document(document)
             )
 
         return chunks
 
-    def _chunk_document(
+    async def chunk_document(
         self,
         document: Document,
     ) -> list[Chunk]:
         """
         Split a single document.
         """
+
+        if not document.content:
+            return []
 
         texts = self._splitter.split_text(
             document.content,

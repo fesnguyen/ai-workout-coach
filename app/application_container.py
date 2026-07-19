@@ -65,7 +65,7 @@ class ApplicationContainer:
 
     async def initialize(self) -> None:
         # Init RAG embedding
-        # await self.rag_service.initialize()
+        await self.rag_service.initialize()
         pass
 
     async def shutdown(self) -> None:

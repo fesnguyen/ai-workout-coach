@@ -45,18 +45,7 @@ class RAGService:
         """
         Persistent embeddings into chromadb
         """
-        documents = await self._context.loader.load()
-
-        chunks = await self._context.chunker.chunk(documents)
-
-        embeddings = await self._context.embedder.embed_documents(
-            [chunk.content for chunk in chunks]
-        )
-
-        await self._context.store.index(
-            chunks,
-            embeddings,
-        )
+        await self._context.ingestion.sync()
 
     async def search(
         self,

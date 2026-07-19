@@ -66,19 +66,17 @@ class RAGStore:
             )
         )
 
-    async def index(
+    async def upsert(
         self,
         chunks: list[Chunk],
         embeddings: list[list[float]],
     ) -> None:
         """
-        Index chunks.
+        Insert or update chunk embeddings.
 
-        Existing chunk ids are automatically updated.
+        Existing chunk IDs are updated.
 
-        New chunk ids are inserted.
-
-        This allows incremental indexing.
+        New chunk IDs are inserted.
         """
 
         if not chunks:
@@ -97,7 +95,7 @@ class RAGStore:
             metadatas=[
                 {
                     "document_id": chunk.document_id,
-                    "source": chunk.source,
+                    "source": str(chunk.source),
                     "chunk_index": chunk.index,
                 }
                 for chunk in chunks
@@ -180,4 +178,19 @@ class RAGStore:
             self._client.create_collection(
                 self.COLLECTION_NAME,
             )
+        )
+
+    
+    async def delete(
+        self,
+        source: str,
+    ) -> None:
+        """
+        Delete every chunk belonging to a document.
+        """
+
+        self._collection.delete(
+            where={
+                "source": source,
+            },
         )

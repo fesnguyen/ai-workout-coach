@@ -115,7 +115,7 @@ class DocumentLoader:
         return Document(
             id=self._build_document_id(path),
             title=path.stem,
-            source=str(path),
+            source=path,
             content=content,
         )
 

@@ -46,7 +46,11 @@ from openai import AsyncOpenAI
 from app.llm.base_generator import BaseGenerator
 from app.rag.embedding.base_embedder import BaseEmbedder
 from app.rag.ingestion.document_chunker import DocumentChunker
+from app.rag.ingestion.document_hasher import DocumentHasher
 from app.rag.ingestion.document_loader import DocumentLoader
+from app.rag.ingestion.index_planner import IndexPlanner
+from app.rag.ingestion.ingestion_service import IngestionService
+from app.rag.ingestion.manifest_store import ManifestStore
 from app.rag.retrieval.rag_compressor import RAGCompressor
 from app.rag.embedding.openai_embedder import OpenAIEmbedder
 from app.rag.retrieval.rag_guardrail import RAGGuardrail
@@ -89,6 +93,24 @@ class RAGContext:
 
         self.store = RAGStore(
             database_path=database_path,
+        )
+
+        self.hasher = DocumentHasher()
+        self.manifest = ManifestStore(
+            database_path=database_path
+        )
+        self.planner = IndexPlanner(
+            self.manifest,
+        )
+
+        self.ingestion = IngestionService(
+            loader=self.loader,
+            chunker=self.chunker,
+            hasher=self.hasher,
+            planner=self.planner,
+            manifest=self.manifest,
+            embedder=self.embedder,
+            store=self.store,
         )
 
         self.retriever = RAGRetriever(
