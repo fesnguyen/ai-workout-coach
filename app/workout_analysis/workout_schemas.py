@@ -10,6 +10,8 @@ WeightUnit = Literal["kg", "lb"]
 
 ExerciseName = str
 
+WorkoutQuery = str
+
 ExerciseHistory = list["ExerciseEntry"]
 
 ExerciseIndex = dict[
@@ -55,3 +57,8 @@ class MetricResult(BaseModel):
     name: str
 
     value: Any
+
+
+class CompressionContext(BaseModel):
+    analysis: AnalysisResult
+    query: WorkoutQuery
