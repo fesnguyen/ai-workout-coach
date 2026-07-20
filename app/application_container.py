@@ -4,8 +4,6 @@ Application dependency container.
 
 from __future__ import annotations
 
-from openai import AsyncOpenAI
-
 from app.agent.agent import Agent
 from app.agent.tool_executor import ToolExecutor
 from app.agent.tool_registry import ToolRegistry
@@ -16,8 +14,8 @@ from app.llm.base_generator import BaseGenerator
 from app.llm.generator_factory import GeneratorFactory
 from app.rag.embedding.base_embedder import BaseEmbedder
 from app.rag.embedding.embedder_factory import EmbedderFactory
-from app.rag.embedding.openai_embedder import OpenAIEmbedder
 from app.rag.rag_service import RAGService
+from app.workout_analysis.workout_service import WorkoutService
 
 
 class ApplicationContainer:
@@ -60,6 +58,11 @@ class ApplicationContainer:
             embedder=self.embedder,
             knowledge_path=rag_settings.rag_knowledge_path,
             database_path=rag_settings.rag_database_path,
+        )
+
+        # Workout analysis
+        self.workout_service = WorkoutService(
+            generator=self.generator
         )
         
 
