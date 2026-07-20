@@ -4,7 +4,7 @@ from fastapi import APIRouter, FastAPI, HTTPException, Request
 
 from time import perf_counter
 
-from app.api.api_schemas import ChatRequest
+from app.api.api_schemas import ChatRequest, WorkoutAnalyzeRequest
 from app.application_container import ApplicationContainer
 from app.llm.llm_schemas import (
     GenerationRequest,
@@ -83,6 +83,26 @@ async def rag_request(
 
     response = await rag_service.search(
         body.message,
+    )
+
+    return {
+        "response": response,
+    }
+
+
+@app.post("/workout/analyze", tags=["Chat"])
+async def workout_analyze_request(
+    body: WorkoutAnalyzeRequest,
+    request: Request,
+):
+    """
+    Chat with the rag
+    """
+
+    workout_service = request.app.state.container.workout_service
+
+    response = await workout_service.analyze(
+        body,
     )
 
     return {

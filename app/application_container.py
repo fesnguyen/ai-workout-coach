@@ -18,6 +18,17 @@ from app.rag.embedding.base_embedder import BaseEmbedder
 from app.rag.embedding.embedder_factory import EmbedderFactory
 from app.rag.embedding.openai_embedder import OpenAIEmbedder
 from app.rag.rag_service import RAGService
+from app.workout_analysis.metrics.consistency_metric import ConsistencyMetric
+from app.workout_analysis.metrics.exercise_distribution_metric import ExerciseDistributionMetric
+from app.workout_analysis.metrics.exercise_gap_metric import ExerciseGapMetric
+from app.workout_analysis.metrics.frequency_metric import FrequencyMetric
+from app.workout_analysis.metrics.intensity_metric import IntensityMetric
+from app.workout_analysis.metrics.personal_record_metric import PersonalRecordMetric
+from app.workout_analysis.metrics.progression_metric import ProgressionMetric
+from app.workout_analysis.metrics.recovery_metric import RecoveryMetric
+from app.workout_analysis.metrics.volume_metric import VolumeMetric
+from app.workout_analysis.workout_analyzer import WorkoutAnalyzer
+from app.workout_analysis.workout_service import WorkoutService
 
 
 class ApplicationContainer:
@@ -60,6 +71,21 @@ class ApplicationContainer:
             embedder=self.embedder,
             knowledge_path=rag_settings.rag_knowledge_path,
             database_path=rag_settings.rag_database_path,
+        )
+
+        # Workout analysis
+        self.workout_service = WorkoutService(
+            metrics=[
+                VolumeMetric(),
+                FrequencyMetric(),
+                ProgressionMetric(),
+                PersonalRecordMetric(),
+                ConsistencyMetric(),
+                ExerciseDistributionMetric(),
+                RecoveryMetric(),
+                ExerciseGapMetric(),
+                IntensityMetric(),
+            ],
         )
         
 
