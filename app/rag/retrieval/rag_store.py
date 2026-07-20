@@ -56,13 +56,16 @@ class RAGStore:
         database_path: Path,
     ) -> None:
 
+        # Create database, dir to db path
         self._client = chromadb.PersistentClient(
             path=str(database_path),
         )
 
+        # Config collection, remove old data for metadata changes take effect
         self._collection: Collection = (
             self._client.get_or_create_collection(
                 name=self.COLLECTION_NAME,
+                metadata={"hnsw:space": "cosine"},
             )
         )
 

@@ -49,16 +49,6 @@ class RetrievedChunk(BaseModel):
     score: float
 
 
-class Source(BaseModel):
-    """
-    Source attribution included in the final response.
-    """
-
-    document: str
-
-    chunk_index: int
-
-
 class RAGResponse(BaseModel):
     """
     Final grounded response returned by the RAG pipeline.
@@ -66,7 +56,7 @@ class RAGResponse(BaseModel):
 
     answer: str
 
-    sources: list[Source] = Field(default_factory=list)
+    sources: list[str] = Field(default_factory=list)
 
 
 class IndexedDocument(BaseModel):

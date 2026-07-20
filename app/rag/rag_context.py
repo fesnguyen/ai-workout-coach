@@ -41,8 +41,6 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from openai import AsyncOpenAI
-
 from app.llm.base_generator import BaseGenerator
 from app.rag.embedding.base_embedder import BaseEmbedder
 from app.rag.ingestion.document_chunker import DocumentChunker
@@ -51,10 +49,11 @@ from app.rag.ingestion.document_loader import DocumentLoader
 from app.rag.ingestion.index_planner import IndexPlanner
 from app.rag.ingestion.ingestion_service import IngestionService
 from app.rag.ingestion.manifest_store import ManifestStore
+from app.rag.retrieval.prompt_builder import PromptBuilder
+from app.rag.retrieval.query_analyzer import QueryAnalyzer
+from app.rag.retrieval.query_normalizer import QueryNormalizer
+from app.rag.retrieval.query_preprocessor import QueryPreprocessor
 from app.rag.retrieval.rag_compressor import RAGCompressor
-from app.rag.embedding.openai_embedder import OpenAIEmbedder
-from app.rag.retrieval.rag_guardrail import RAGGuardrail
-from app.rag.retrieval.rag_query_rewriter import RAGQueryRewriter
 from app.rag.retrieval.rag_retriever import RAGRetriever
 from app.rag.retrieval.rag_store import RAGStore
 
@@ -78,6 +77,10 @@ class RAGContext:
         # ---------------------------------------------------------------------
         # Ingestion
         # ---------------------------------------------------------------------
+
+        self.generator = generator
+
+        self.prompt_builder = PromptBuilder()
 
         self.loader = DocumentLoader(
             knowledge_path=knowledge_path,
@@ -113,6 +116,12 @@ class RAGContext:
             store=self.store,
         )
 
+        self.query_normalizer = QueryNormalizer()
+
+        self.query_preprocessor = QueryPreprocessor()
+
+        self.query_analyzer = QueryAnalyzer(generator)
+
         self.retriever = RAGRetriever(
             store=self.store,
         )
@@ -122,21 +131,3 @@ class RAGContext:
         # ---------------------------------------------------------------------
         # Query Processing
         # ---------------------------------------------------------------------
-
-        self.guardrail = RAGGuardrail(
-            generator=generator,
-        )
-
-        self.query_rewriter = RAGQueryRewriter(
-            generator=generator,
-        )
-
-        # ---------------------------------------------------------------------
-        # Future Components
-        # ---------------------------------------------------------------------
-
-        # self.reranker = RAGReranker()
-
-        # self.generator = RAGGenerator(
-        #     generator=generator,
-        # )

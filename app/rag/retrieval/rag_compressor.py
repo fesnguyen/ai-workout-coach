@@ -28,7 +28,7 @@ Filtered Chunks
 
 from __future__ import annotations
 
-from app.rag.rag_schemas import RetrievedChunk
+from app.rag.rag_schemas import Chunk, RetrievedChunk
 
 
 class RAGCompressor:
@@ -52,8 +52,8 @@ class RAGCompressor:
 
     async def compress(
         self,
-        chunks: list[RetrievedChunk],
-    ) -> list[RetrievedChunk]:
+        retrieved_chunks: list[RetrievedChunk],
+    ) -> list[Chunk]:
         """
         Compress retrieved chunks.
 
@@ -65,20 +65,20 @@ class RAGCompressor:
         4. Keep only the best N chunks
         """
 
-        if not chunks:
+        if not retrieved_chunks:
             return []
 
-        chunks = sorted(
-            chunks,
+        retrieved_chunks = sorted(
+            retrieved_chunks,
             key=lambda chunk: chunk.score,
             reverse=True,
         )
 
-        chunks = self._remove_duplicates(chunks)
+        retrieved_chunks = self._remove_duplicates(retrieved_chunks)
 
         chunks = [
-            chunk
-            for chunk in chunks
+            chunk.chunk
+            for chunk in retrieved_chunks
             if chunk.score >= self._min_score
         ]
 
