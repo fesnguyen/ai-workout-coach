@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 from app.api.api_schemas import WorkoutAnalyzeRequest
+from app.llm.base_generator import BaseGenerator
+from app.llm.llm_schemas import GenerationRequest
 from app.workout_analysis.compression.empty_metric_compression import EmptyMetricCompression
 from app.workout_analysis.compression.exercise_filter_compression import ExerciseFilterCompression
 from app.workout_analysis.compression.metric_selection_compression import MetricSelectionCompression
@@ -39,6 +41,7 @@ class WorkoutService:
 
     def __init__(
         self,
+        generator: BaseGenerator,
     ) -> None:
         self._context = WorkoutContext(
             metrics=[
@@ -58,12 +61,13 @@ class WorkoutService:
                 # ExerciseFilterCompression(),
                 # MetricSelectionCompression(),
             ],
+            generator=generator
         )
 
     async def analyze(
         self,
         analysisRequest: WorkoutAnalyzeRequest,
-    ) -> AnalysisResult:
+    ) -> str:
         """
         Analyze a user's workout history.
         """
@@ -79,4 +83,16 @@ class WorkoutService:
             )
         )
 
-        return compressed_analysis
+        analysis_messages = self._context.promt_builder.build(
+            query=analysisRequest.query,
+            analysis=compressed_analysis,
+        )
+
+        response = await self._context.generator.generate(
+            GenerationRequest(
+                messages=analysis_messages,
+                tool_definitions=[]
+            )
+        )
+
+        return response.response

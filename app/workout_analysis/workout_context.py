@@ -2,10 +2,12 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 
+from app.llm.base_generator import BaseGenerator
 from app.workout_analysis.compression.base import BaseCompression
 from app.workout_analysis.compression.workout_compressor import WorkoutCompressor
 from app.workout_analysis.metrics.base import BaseMetric
 from app.workout_analysis.workout_analyzer import WorkoutAnalyzer
+from app.workout_analysis.workout_prompt_builder import WorkoutPromptBuilder
 from app.workout_analysis.workout_validator import WorkoutValidator
 
 
@@ -18,8 +20,13 @@ class WorkoutContext:
         self,
         metrics: Sequence[BaseMetric],
         compressions: Sequence[BaseCompression],
+        generator: BaseGenerator,
     ) -> None:
         self.validator = WorkoutValidator()
+
+        self.promt_builder = WorkoutPromptBuilder()
+
+        self.generator = generator
 
         self.analyzer = WorkoutAnalyzer(
             metrics=metrics,

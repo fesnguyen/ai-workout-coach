@@ -61,7 +61,9 @@ class ApplicationContainer:
         )
 
         # Workout analysis
-        self.workout_service = WorkoutService()
+        self.workout_service = WorkoutService(
+            generator=self.generator
+        )
         
 
     async def initialize(self) -> None:
