@@ -68,3 +68,23 @@ async def chat(
     return {
         "response": response,
     }
+
+
+@app.post("/rag/search", tags=["Chat"])
+async def rag_request(
+    body: ChatRequest,
+    request: Request,
+):
+    """
+    Chat with the rag
+    """
+
+    rag_service = request.app.state.container.rag_service
+
+    response = await rag_service.search(
+        body.message,
+    )
+
+    return {
+        "response": response,
+    }

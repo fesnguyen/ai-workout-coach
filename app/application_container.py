@@ -4,13 +4,20 @@ Application dependency container.
 
 from __future__ import annotations
 
+from openai import AsyncOpenAI
+
 from app.agent.agent import Agent
 from app.agent.tool_executor import ToolExecutor
 from app.agent.tool_registry import ToolRegistry
 from app.agent.tools.calculator_tool import CalculatorTool
-from app.configs.llm_settings import settings
+from app.configs.llm_settings import llm_settings
+from app.configs.rag_settings import rag_settings
 from app.llm.base_generator import BaseGenerator
 from app.llm.generator_factory import GeneratorFactory
+from app.rag.embedding.base_embedder import BaseEmbedder
+from app.rag.embedding.embedder_factory import EmbedderFactory
+from app.rag.embedding.openai_embedder import OpenAIEmbedder
+from app.rag.rag_service import RAGService
 
 
 class ApplicationContainer:
@@ -24,9 +31,9 @@ class ApplicationContainer:
     def __init__(self) -> None:
         # Generator
         self.generator: BaseGenerator = GeneratorFactory.create(
-            provider=settings.llm_provider,
-            api_key=settings.openai_api_key,
-            model=settings.openai_model,
+            provider=llm_settings.llm_provider,
+            api_key=llm_settings.openai_api_key,
+            model=llm_settings.openai_model,
         )
 
         # Tool executor
@@ -39,15 +46,26 @@ class ApplicationContainer:
             generator=self.generator,
             tool_executor=executor,
         )
-
         self.agent = agent
+
+        self.embedder: BaseEmbedder = EmbedderFactory.create(
+            provider=rag_settings.embedding_provider,
+            api_key=rag_settings.openai_api_key,
+            model=rag_settings.model,
+        )
+
+        # RAG
+        self.rag_service = RAGService(
+            generator=self.generator,
+            embedder=self.embedder,
+            knowledge_path=rag_settings.rag_knowledge_path,
+            database_path=rag_settings.rag_database_path,
+        )
         
 
     async def initialize(self) -> None:
-        """
-        Initialize resources that require asynchronous startup.
-        Ex: Local LLM
-        """
+        # Init RAG embedding
+        await self.rag_service.initialize()
         pass
 
     async def shutdown(self) -> None:
