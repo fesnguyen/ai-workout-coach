@@ -1,6 +1,9 @@
 from __future__ import annotations
 from pathlib import Path
+from textwrap import indent
 import uuid
+
+from langchain_text_splitters import json
 
 from app.api.api_schemas import WorkoutAnalyzeRequest, WorkoutAnalyzeResponse
 from app.llm.base_generator import BaseGenerator
@@ -83,12 +86,6 @@ class WorkoutService:
         analysis = await self._context.analyzer.analyze(
             analysis_request.user_profile.workouts
         )
-        
-        # Persist the raw analysis result to storage (JSON/DB) and retrieve the generated user ID
-        user_id = await self._save_analysis_result(
-            user_name=analysis_request.user_profile.name,
-            analysis_result=analysis,
-        )
 
         # Compress the raw metrics to fit context limits while retaining relevant query details
         compressed_analysis = await self._context.compressor.compress(
@@ -98,10 +95,36 @@ class WorkoutService:
             )
         )
 
-        # Format prompt messages incorporating the user query and compressed analysis context
-        analysis_messages = self._context.promt_builder.build(
-            query=analysis_request.query,
+        # Persist the raw analysis result to storage (JSON/DB) and retrieve the generated user ID
+        user_id = await self._save_analysis_result(
+            user_name=analysis_request.user_profile.name,
+            analysis_result=compressed_analysis,
+        )
+
+        # Invoke generator to synthesize natural language insights from the analysis
+        response = await self._invoke_generator(
             analysis=compressed_analysis,
+            query=analysis_request.query,
+        )
+
+        # Return the final structured response with the LLM output and reference user ID
+        return WorkoutAnalyzeResponse(
+            response=response,
+            user_id=user_id,
+        )
+    
+    async def _invoke_generator(
+        self,
+        analysis: AnalysisResult,
+        query: str,
+    ) -> str:
+        """
+        Invoke the LLM generator to answer a user's query based on their workout analysis.
+        """
+
+        analysis_messages = self._context.prompt_builder.build(
+            query=query,
+            analysis=analysis,
         )
 
         # Call the LLM generator to synthesize natural language insights from the analysis
@@ -112,11 +135,8 @@ class WorkoutService:
             )
         )
 
-        # Return the final structured response with the LLM output and reference user ID
-        return WorkoutAnalyzeResponse(
-            response=response.response,
-            user_id=user_id,
-        )
+        return response.response
+
     
     async def _save_analysis_result(
         self,
@@ -138,3 +158,22 @@ class WorkoutService:
             f.write(analysis_result.model_dump_json(indent=2))
 
         return user_id
+
+    
+    async def load_analysis(
+        self,
+        user_id: str,
+    ) -> str:
+        """
+        Load workout analysis from json file
+        """
+        file_path = Path(f"data/workout_analysis/{user_id}.json")
+
+        if not file_path.exists():
+            raise FileNotFoundError(f"Analysis result for user_id {user_id} not found.")
+
+        with open(file_path, "r", encoding="utf-8") as f:
+            analysis_json = f.read()
+
+        # Return analysis result as JSON string
+        return analysis_json

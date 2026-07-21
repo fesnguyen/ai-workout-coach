@@ -18,6 +18,8 @@ from app.rag.embedding.base_embedder import BaseEmbedder
 from app.rag.embedding.embedder_factory import EmbedderFactory
 from app.rag.rag_service import RAGService
 from app.workout_analysis.workout_service import WorkoutService
+from app.agent.tools.workout_analyzer_tool import WorkoutAnalyzerTool
+
 
 
 class ApplicationContainer:
@@ -60,6 +62,7 @@ class ApplicationContainer:
         registry = ToolRegistry()
         registry.register(CalculatorTool())
         registry.register(RagTool(self.rag_service))
+        registry.register(WorkoutAnalyzerTool(self.workout_service))
 
         self.tool_executor = ToolExecutor(registry)
 

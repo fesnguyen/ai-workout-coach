@@ -24,7 +24,7 @@ class WorkoutContext:
     ) -> None:
         self.validator = WorkoutValidator()
 
-        self.promt_builder = WorkoutPromptBuilder()
+        self.prompt_builder = WorkoutPromptBuilder()
 
         self.generator = generator
 
