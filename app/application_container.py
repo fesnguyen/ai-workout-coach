@@ -36,6 +36,7 @@ class ApplicationContainer:
             model=llm_settings.openai_model,
         )
 
+        # Embedder
         self.embedder: BaseEmbedder = EmbedderFactory.create(
             provider=rag_settings.embedding_provider,
             api_key=rag_settings.openai_api_key,
@@ -52,31 +53,41 @@ class ApplicationContainer:
 
         # Workout analysis
         self.workout_service = WorkoutService(
-            generator=self.generator
+            generator=self.generator,
         )
 
-        # Tool executor
+        # Tool registry
         registry = ToolRegistry()
         registry.register(CalculatorTool())
         registry.register(RagTool(self.rag_service))
-        executor = ToolExecutor(registry)
-        
-        # Context prompt builder
+
+        self.tool_executor = ToolExecutor(registry)
+
+        # Prompt builder
         self.context_prompt_builder = ContextPromptBuilder()
 
-        # Agent who hold the workflow
-        agent = Agent(
-            generator=self.generator,
-            tool_executor=executor,
-            context_prompt_builder=self.context_prompt_builder,
-        )
-        self.agent = agent
-        
+        # Async dependencies (initialized later)
+        self._postgres_pool = None
+        self.conversation_store = None
+        self.conversation_service = None
+
+        # Agent (created during initialization)
+        self.agent = None
 
     async def initialize(self) -> None:
-        # Init RAG embedding
+        """
+        Initialize all asynchronous application resources.
+        """
+
+        # Build the RAG vector database.
         await self.rag_service.initialize()
-        pass
+
+        # Create the agent after all dependencies are ready.
+        self.agent = Agent(
+            generator=self.generator,
+            tool_executor=self.tool_executor,
+            context_prompt_builder=self.context_prompt_builder,
+        )
 
     async def shutdown(self) -> None:
         """

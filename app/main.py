@@ -1,15 +1,12 @@
 from contextlib import asynccontextmanager
 
-from fastapi import APIRouter, FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Request
+from openai import BadRequestError
 
-from time import perf_counter
-
-from app.api.api_schemas import ChatRequest, WorkoutAnalyzeRequest
+from app.api.api_schemas import ChatRequest, ChatResponse, RAGSearchRequest, WorkoutAnalyzeRequest
+from app.api.exceptions import InvalidPreviousResponseError
 from app.application_container import ApplicationContainer
-from app.llm.llm_schemas import (
-    GenerationRequest,
-    Message,
-)
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -45,34 +42,32 @@ async def health_check():
     return {"status": "Hello"}
 
 
+
 @app.post("/chat", tags=["Chat"])
 async def chat(
     body: ChatRequest,
     request: Request,
-):
+)-> ChatResponse:
     """
     Chat with the agent
     """
 
     agent = request.app.state.container.agent
 
-    response = await agent.invoke(
-        messages=[
-            Message(
-                role="user",
-                content=body.message,
-            )
-        ]
-    )
+    try:
+        response = await agent.chat(body)
+        return response
 
-    return {
-        "response": response,
-    }
+    except InvalidPreviousResponseError as ex:
+        raise HTTPException(
+            status_code=400,
+            detail=str(ex),
+        )
 
 
 @app.post("/rag/search", tags=["Chat"])
 async def rag_request(
-    body: ChatRequest,
+    body: RAGSearchRequest,
     request: Request,
 ):
     """
@@ -82,7 +77,7 @@ async def rag_request(
     rag_service = request.app.state.container.rag_service
 
     response = await rag_service.search(
-        body.message,
+        body.query,
     )
 
     return {

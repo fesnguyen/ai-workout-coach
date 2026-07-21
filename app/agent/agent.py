@@ -1,6 +1,8 @@
 from __future__ import annotations
+import uuid
 
 from app.agent.tool_executor import ToolExecutor
+from app.api.api_schemas import ChatRequest, ChatResponse
 from app.llm.base_generator import BaseGenerator
 from app.llm.llm_schemas import (
     GenerationRequest,
@@ -38,52 +40,63 @@ class Agent:
 
         self._context_prompt_builder = context_prompt_builder
 
-    async def invoke(
+    async def chat(
         self,
-        messages: list[Message],
-        previous_response_id: str = None,
-    ) -> str:
+        request: ChatRequest,
+    ) -> ChatResponse:
         """
-        Execute the agent loop until the model returns
-        a final response or the iteration limit is reached.
+        Execute the agent workflow until the model returns a final response.
         """
 
+        # Build the initial request based on whether this starts a new conversation.
+        previous_response_id = request.previous_response_id
         history = [
-            *self._context_prompt_builder.build(),
-            *messages,
+            Message(
+                role="user",
+                content=request.message,
+            ),
         ]
 
-        for i in range(self._max_iterations):
-            # The first request provides the complete execution context.
-            # Subsequent requests send only the latest message because
-            # the OpenAI Responses API reconstructs the conversation
-            # using the previous_response_id.
+        if previous_response_id is None:
+            history = [
+                *self._context_prompt_builder.build(),
+                *history,
+            ]
+
+        # Execute the tool-calling loop until the model returns a final response.
+        for iteration in range(self._max_iterations):
+
+            # Send the initial request once, then continue with only the latest
+            # tool outputs because the Responses API reconstructs the context.
             request_messages = (
                 history
-                if i == 0
-                else [history[-1]]
+                if iteration == 0
+                else history[-len(tool_outputs):]
             )
+
             response: GenerationResponse = await self._generator.generate(
                 GenerationRequest(
                     messages=request_messages,
                     tool_definitions=self._tool_executor.tool_definitions,
                 ),
-                previous_response_id
+                previous_response_id,
             )
 
-            # Output to use once no more tool call
+            # Return the final response once no additional tool calls are requested.
             if not response.tool_calls:
-                return response.response
+                return ChatResponse(
+                    previous_response_id=response.previous_response_id,
+                    answer=response.response,
+                )
 
-            # Execute tool
+            # Execute the requested tools and append their outputs for the next iteration.
             tool_outputs = await self._tool_executor.execute(
                 response.tool_calls,
             )
 
-            # Append tool output to the messages
             history.extend(tool_outputs)
 
-            # Saving response id for next generation
+            # Continue the Responses API chain in the next iteration.
             previous_response_id = response.previous_response_id
 
         raise RuntimeError(
