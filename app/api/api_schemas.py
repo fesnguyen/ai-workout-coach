@@ -23,3 +23,7 @@ class WorkoutAnalyzeRequest(BaseModel):
     query: str
     user_profile: UserProfile
 
+class WorkoutAnalyzeResponse(BaseModel):
+    response: str
+    user_id: str
+

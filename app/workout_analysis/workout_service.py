@@ -1,6 +1,8 @@
 from __future__ import annotations
+from pathlib import Path
+import uuid
 
-from app.api.api_schemas import WorkoutAnalyzeRequest
+from app.api.api_schemas import WorkoutAnalyzeRequest, WorkoutAnalyzeResponse
 from app.llm.base_generator import BaseGenerator
 from app.llm.llm_schemas import GenerationRequest
 from app.workout_analysis.compression.empty_metric_compression import EmptyMetricCompression
@@ -66,32 +68,43 @@ class WorkoutService:
 
     async def analyze(
         self,
-        analysisRequest: WorkoutAnalyzeRequest,
-    ) -> str:
+        analysis_request: WorkoutAnalyzeRequest,
+    ) -> WorkoutAnalyzeResponse:
         """
         Analyze a user's workout history.
         """
 
+        # Validate the user's workout data structure before analysis
         await self._context.validator.validate(
-                analysisRequest.user_profile.workouts
-            )
+            analysis_request.user_profile.workouts
+        )
 
-        analysis =  await self._context.analyzer.analyze(
-                analysisRequest.user_profile.workouts
-            )
+        # Run core analytics to compute volume, frequency, progression, and PR metrics
+        analysis = await self._context.analyzer.analyze(
+            analysis_request.user_profile.workouts
+        )
+        
+        # Persist the raw analysis result to storage (JSON/DB) and retrieve the generated user ID
+        user_id = await self._save_analysis_result(
+            user_name=analysis_request.user_profile.name,
+            analysis_result=analysis,
+        )
 
+        # Compress the raw metrics to fit context limits while retaining relevant query details
         compressed_analysis = await self._context.compressor.compress(
             CompressionContext(
                 analysis=analysis,
-                query=analysisRequest.query,
+                query=analysis_request.query,
             )
         )
 
+        # Format prompt messages incorporating the user query and compressed analysis context
         analysis_messages = self._context.promt_builder.build(
-            query=analysisRequest.query,
+            query=analysis_request.query,
             analysis=compressed_analysis,
         )
 
+        # Call the LLM generator to synthesize natural language insights from the analysis
         response = await self._context.generator.generate(
             GenerationRequest(
                 messages=analysis_messages,
@@ -99,4 +112,29 @@ class WorkoutService:
             )
         )
 
-        return response.response
+        # Return the final structured response with the LLM output and reference user ID
+        return WorkoutAnalyzeResponse(
+            response=response.response,
+            user_id=user_id,
+        )
+    
+    async def _save_analysis_result(
+        self,
+        user_name: str,
+        analysis_result: AnalysisResult,
+    )-> str:
+        """
+        Save workout analysis result
+        """
+        output_dir = Path("data/workout_analysis")
+        output_dir.mkdir(parents=True, exist_ok=True)
+
+        user_id = f"{user_name}_{uuid.uuid4().hex}"
+
+        filename = f"{user_id}.json"
+        file_path = output_dir / filename
+
+        with open(file_path, "w", encoding="utf-8") as f:
+            f.write(analysis_result.model_dump_json(indent=2))
+
+        return user_id

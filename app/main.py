@@ -4,7 +4,7 @@ import json
 from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
 from openai import BadRequestError
 
-from app.api.api_schemas import ChatRequest, ChatResponse, RAGSearchRequest, UserProfile, WorkoutAnalyzeRequest
+from app.api.api_schemas import ChatRequest, ChatResponse, RAGSearchRequest, UserProfile, WorkoutAnalyzeRequest, WorkoutAnalyzeResponse
 from app.api.exceptions import InvalidPreviousResponseError
 from app.application_container import ApplicationContainer
 
@@ -105,8 +105,6 @@ async def workout_analyze_request(
         user_profile=payload,
     )
 
-    response = await workout_service.analyze(body)
+    response: WorkoutAnalyzeResponse = await workout_service.analyze(body)
 
-    return {
-        "response": response,
-    }
+    return response
