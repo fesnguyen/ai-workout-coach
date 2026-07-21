@@ -1,9 +1,10 @@
 from contextlib import asynccontextmanager
+import json
 
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
 from openai import BadRequestError
 
-from app.api.api_schemas import ChatRequest, ChatResponse, RAGSearchRequest, WorkoutAnalyzeRequest
+from app.api.api_schemas import ChatRequest, ChatResponse, RAGSearchRequest, UserProfile, WorkoutAnalyzeRequest
 from app.api.exceptions import InvalidPreviousResponseError
 from app.application_container import ApplicationContainer
 
@@ -87,8 +88,9 @@ async def rag_request(
 
 @app.post("/workout/analyze", tags=["Chat"])
 async def workout_analyze_request(
-    body: WorkoutAnalyzeRequest,
-    request: Request,
+    file: UploadFile = File(...),
+    query: str = Form(...),
+    request: Request = None,
 ):
     """
     Chat with the rag
@@ -96,9 +98,14 @@ async def workout_analyze_request(
 
     workout_service = request.app.state.container.workout_service
 
-    response = await workout_service.analyze(
-        body,
+    payload: UserProfile = json.loads(await file.read())
+
+    body = WorkoutAnalyzeRequest(
+        query=query,
+        user_profile=payload,
     )
+
+    response = await workout_service.analyze(body)
 
     return {
         "response": response,

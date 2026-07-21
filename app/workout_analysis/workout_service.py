@@ -72,9 +72,13 @@ class WorkoutService:
         Analyze a user's workout history.
         """
 
-        await self._context.validator.validate(analysisRequest.history)
+        await self._context.validator.validate(
+                analysisRequest.user_profile.workouts
+            )
 
-        analysis =  await self._context.analyzer.analyze(analysisRequest.history)
+        analysis =  await self._context.analyzer.analyze(
+                analysisRequest.user_profile.workouts
+            )
 
         compressed_analysis = await self._context.compressor.compress(
             CompressionContext(
