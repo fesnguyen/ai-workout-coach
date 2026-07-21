@@ -14,6 +14,16 @@ class ChatResponse(BaseModel):
 class RAGSearchRequest(BaseModel):
     query: str
 
+class UserProfile(BaseModel):
+    name: str
+    profile: str | None = None
+    workouts: list[ExerciseEntry]
+
 class WorkoutAnalyzeRequest(BaseModel):
     query: str
-    history: list[ExerciseEntry]
+    user_profile: UserProfile
+
+class WorkoutAnalyzeResponse(BaseModel):
+    response: str
+    user_id: str
+
