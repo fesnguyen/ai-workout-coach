@@ -37,7 +37,7 @@ from pathlib import Path
 import chromadb
 from chromadb.api.models.Collection import Collection
 
-from app.rag.rag_schemas import Chunk, RetrievedChunk
+from app.rag.rag_schemas import Chunk
 
 
 class RAGStore:
@@ -109,7 +109,7 @@ class RAGStore:
         self,
         embedding: list[float],
         top_k: int = 5,
-    ) -> list[RetrievedChunk]:
+    ) -> list[Chunk]:
         """
         Perform semantic similarity search.
         """
@@ -119,7 +119,7 @@ class RAGStore:
             n_results=top_k,
         )
 
-        retrieved: list[RetrievedChunk] = []
+        chunks: list[Chunk] = []
 
         ids = results["ids"][0]
         docs = results["documents"][0]
@@ -132,20 +132,18 @@ class RAGStore:
             metas,
             distances,
         ):
-            retrieved.append(
-                RetrievedChunk(
-                    chunk=Chunk(
-                        id=chunk_id,
-                        document_id=metadata["document_id"],
-                        source=metadata["source"],
-                        index=metadata["chunk_index"],
-                        content=document,
-                    ),
+            chunks.append(
+                Chunk(
+                    id=chunk_id,
+                    document_id=metadata["document_id"],
+                    source=metadata["source"],
+                    index=metadata["chunk_index"],
+                    content=document,
                     score=1.0 - distance,
                 )
             )
 
-        return retrieved
+        return chunks
 
     async def contains(
         self,

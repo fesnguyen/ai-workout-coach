@@ -3,7 +3,6 @@ from __future__ import annotations
 import json
 
 from app.agent.tools.base_tool import BaseTool
-from app.rag.rag_schemas import RetrievedChunk
 from app.rag.rag_service import RAGService
 
 
@@ -65,14 +64,14 @@ class RagTool(BaseTool):
 
         # Retrieve the relevant knowledge without generating a user-facing
         # response.
-        retrieved_chunks, _ = (
+        chunks, _ = (
             await self._rag_service.search_context(
                 query=query,
             )
         )
 
         # Return an empty result when no supporting evidence is found.
-        if not retrieved_chunks:
+        if not chunks:
             return json.dumps(
                 {
                     "chunks": [],
@@ -84,11 +83,11 @@ class RagTool(BaseTool):
             {
                 "chunks": [
                     {
-                        "content": retrieved_chunk.chunk.content,
-                        "score": retrieved_chunk.score,
-                        "source": str(retrieved_chunk.chunk.source),
+                        "content": chunk.content,
+                        "score": chunk.score,
+                        "source": str(chunk.source),
                     }
-                    for retrieved_chunk in retrieved_chunks
+                    for chunk in chunks
                 ]
             },
             ensure_ascii=False,

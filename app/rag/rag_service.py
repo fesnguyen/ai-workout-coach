@@ -51,10 +51,10 @@ class RAGService:
         Answer user query directly after retrieved the context
         """
         # Handle request search for chunks
-        retrieved_chunks, rewritten_query = await self.search_context(query=query)
+        chunks, rewritten_query = await self.search_context(query=query)
 
         # Nothing relevant was found.
-        if not retrieved_chunks:
+        if not chunks:
             return RAGResponse(
                 answer=(
                     "I couldn't find enough information in my "
@@ -65,7 +65,7 @@ class RAGService:
         # Build the system message with retrieval data
         generator_messages = self._context.prompt_builder.build(
             query=rewritten_query,
-            chunks=retrieved_chunks,
+            chunks=chunks,
         )
 
         response = await self._context.generator.generate(
@@ -115,14 +115,14 @@ class RAGService:
         )
 
         # Retrieve the most relevant chunks from the vector store.
-        retrieved_chunks = await self._context.retriever.retrieve(
+        chunks = await self._context.retriever.retrieve(
             embedding=embedding,
             top_k=30,
         )
 
         # Remove duplicates and reduce the context size.
-        retrieved_chunks = await self._context.compressor.compress(
-            retrieved_chunks,
+        chunks = await self._context.compressor.compress(
+            chunks,
         )
 
-        return retrieved_chunks, rewritten_query
+        return chunks, rewritten_query
