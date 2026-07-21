@@ -37,16 +37,7 @@ class Chunk(BaseModel):
 
     content: str
 
-
-
-class RetrievedChunk(BaseModel):
-    """
-    A chunk returned by the retriever.
-    """
-
-    chunk: Chunk
-
-    score: float
+    score: float | None = None
 
 
 class RAGResponse(BaseModel):

@@ -8,10 +8,12 @@ from app.agent.agent import Agent
 from app.agent.tool_executor import ToolExecutor
 from app.agent.tool_registry import ToolRegistry
 from app.agent.tools.calculator_tool import CalculatorTool
+from app.agent.tools.rag_tool import RagTool
 from app.configs.llm_settings import llm_settings
 from app.configs.rag_settings import rag_settings
 from app.llm.base_generator import BaseGenerator
 from app.llm.generator_factory import GeneratorFactory
+from app.prompts.context_prompt_builder import ContextPromptBuilder
 from app.rag.embedding.base_embedder import BaseEmbedder
 from app.rag.embedding.embedder_factory import EmbedderFactory
 from app.rag.rag_service import RAGService
@@ -34,18 +36,6 @@ class ApplicationContainer:
             model=llm_settings.openai_model,
         )
 
-        # Tool executor
-        registry = ToolRegistry()
-        registry.register(CalculatorTool())
-        executor = ToolExecutor(registry)
-
-        # Agent who hold the workflow
-        agent = Agent(
-            generator=self.generator,
-            tool_executor=executor,
-        )
-        self.agent = agent
-
         self.embedder: BaseEmbedder = EmbedderFactory.create(
             provider=rag_settings.embedding_provider,
             api_key=rag_settings.openai_api_key,
@@ -64,6 +54,23 @@ class ApplicationContainer:
         self.workout_service = WorkoutService(
             generator=self.generator
         )
+
+        # Tool executor
+        registry = ToolRegistry()
+        registry.register(CalculatorTool())
+        registry.register(RagTool(self.rag_service))
+        executor = ToolExecutor(registry)
+        
+        # Context prompt builder
+        self.context_prompt_builder = ContextPromptBuilder()
+
+        # Agent who hold the workflow
+        agent = Agent(
+            generator=self.generator,
+            tool_executor=executor,
+            context_prompt_builder=self.context_prompt_builder,
+        )
+        self.agent = agent
         
 
     async def initialize(self) -> None:

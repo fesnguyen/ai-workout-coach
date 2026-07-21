@@ -47,42 +47,11 @@ class RAGService:
         query: str,
         history: list[Message] | None = None, # Not used yet
     ) -> RAGResponse:
-        
-        # Normalize query
-        normalized_query = await self._context.query_normalizer.normalize(query)
-
-        # Expand query into a normalized, retrieval-friendly representation
-        preprocessed_query: ProcessedQuery = \
-            await self._context.query_preprocessor.process(
-                normalized_query
-            )
-
-        # Guard rail, classify, rewrite querry
-        query_analysis: QueryAnalysis = await self._context.query_analyzer \
-            .analyze(preprocessed_query)
-
-        # Redict or completely refuse the question gentally
-        if query_analysis.classification != Classification.FITNESS:
-            return RAGResponse(
-                answer=query_analysis.response,
-            )
-        
-        rewritten_query = query_analysis.rewritten_query
-        # Convert the rewritten query into an embedding.
-        embedding = await self._context.embedder.embed_query(
-            rewritten_query,
-        )
-
-        # Retrieve the most relevant chunks from the vector store.
-        retrieved_chunks = await self._context.retriever.retrieve(
-            embedding=embedding,
-            top_k=30,
-        )
-
-        # Remove duplicates and reduce the context size.
-        chunks = await self._context.compressor.compress(
-            retrieved_chunks,
-        )
+        """
+        Answer user query directly after retrieved the context
+        """
+        # Handle request search for chunks
+        chunks, rewritten_query = await self.search_context(query=query)
 
         # Nothing relevant was found.
         if not chunks:
@@ -111,3 +80,49 @@ class RAGService:
             answer=response_obj["answer"],
             sources=response_obj["sources"],
         )
+    
+
+    async def search_context(
+        self,
+        query: str,
+    ):
+        """
+        RAG pipeline - retrieve chunks
+        """
+        # Normalize query
+        normalized_query = await self._context.query_normalizer.normalize(query)
+
+        # Expand query into a normalized, retrieval-friendly representation
+        preprocessed_query: ProcessedQuery = \
+            await self._context.query_preprocessor.process(
+                normalized_query
+            )
+
+        # Guard rail, classify, rewrite querry
+        query_analysis: QueryAnalysis = await self._context.query_analyzer \
+            .analyze(preprocessed_query)
+
+        # Redict or completely refuse the question gentally
+        if query_analysis.classification != Classification.FITNESS:
+            return RAGResponse(
+                answer=query_analysis.response,
+            )
+        
+        rewritten_query = query_analysis.rewritten_query
+        # Convert the rewritten query into an embedding.
+        embedding = await self._context.embedder.embed_query(
+            rewritten_query,
+        )
+
+        # Retrieve the most relevant chunks from the vector store.
+        chunks = await self._context.retriever.retrieve(
+            embedding=embedding,
+            top_k=30,
+        )
+
+        # Remove duplicates and reduce the context size.
+        chunks = await self._context.compressor.compress(
+            chunks,
+        )
+
+        return chunks, rewritten_query

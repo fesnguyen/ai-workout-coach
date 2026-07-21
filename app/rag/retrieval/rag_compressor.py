@@ -28,7 +28,7 @@ Filtered Chunks
 
 from __future__ import annotations
 
-from app.rag.rag_schemas import Chunk, RetrievedChunk
+from app.rag.rag_schemas import Chunk
 
 
 class RAGCompressor:
@@ -52,7 +52,7 @@ class RAGCompressor:
 
     async def compress(
         self,
-        retrieved_chunks: list[RetrievedChunk],
+        chunks: list[Chunk],
     ) -> list[Chunk]:
         """
         Compress retrieved chunks.
@@ -65,20 +65,20 @@ class RAGCompressor:
         4. Keep only the best N chunks
         """
 
-        if not retrieved_chunks:
+        if not chunks:
             return []
 
-        retrieved_chunks = sorted(
-            retrieved_chunks,
+        chunks = sorted(
+            chunks,
             key=lambda chunk: chunk.score,
             reverse=True,
         )
 
-        retrieved_chunks = self._remove_duplicates(retrieved_chunks)
+        chunks = self._remove_duplicates(chunks)
 
         chunks = [
-            chunk.chunk
-            for chunk in retrieved_chunks
+            chunk
+            for chunk in chunks
             if chunk.score >= self._min_score
         ]
 
@@ -86,24 +86,24 @@ class RAGCompressor:
 
     @staticmethod
     def _remove_duplicates(
-        chunks: list[RetrievedChunk],
-    ) -> list[RetrievedChunk]:
+        chunks: list[Chunk],
+    ) -> list[Chunk]:
         """
         Remove duplicate chunks.
 
         Duplicate detection is based on chunk id.
         """
 
-        unique: list[RetrievedChunk] = []
+        unique: list[Chunk] = []
 
         seen: set[str] = set()
 
         for chunk in chunks:
 
-            if chunk.chunk.id in seen:
+            if chunk.id in seen:
                 continue
 
-            seen.add(chunk.chunk.id)
+            seen.add(chunk.id)
 
             unique.append(chunk)
 

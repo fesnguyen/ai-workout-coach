@@ -7,6 +7,7 @@ from app.llm.llm_schemas import (
     GenerationResponse,
     Message,
 )
+from app.prompts.context_prompt_builder import ContextPromptBuilder
 
 
 class Agent:
@@ -28,11 +29,14 @@ class Agent:
         self,
         generator: BaseGenerator,
         tool_executor: ToolExecutor,
+        context_prompt_builder: ContextPromptBuilder,
         max_iterations: int = 5,
     ) -> None:
         self._generator = generator
         self._tool_executor = tool_executor
         self._max_iterations = max_iterations
+
+        self._context_prompt_builder = context_prompt_builder
 
     async def invoke(
         self,
@@ -44,15 +48,24 @@ class Agent:
         a final response or the iteration limit is reached.
         """
 
-        history = list(messages)
+        history = [
+            *self._context_prompt_builder.build(),
+            *messages,
+        ]
 
         for i in range(self._max_iterations):
-            # Item centric strategy, provide managed the conversation flow/cache
-            # => If it's first invoke generator, send full message
-            # From the second time, only send the last message + previous_response_id
+            # The first request provides the complete execution context.
+            # Subsequent requests send only the latest message because
+            # the OpenAI Responses API reconstructs the conversation
+            # using the previous_response_id.
+            request_messages = (
+                history
+                if i == 0
+                else [history[-1]]
+            )
             response: GenerationResponse = await self._generator.generate(
                 GenerationRequest(
-                    messages=(history if i == 0 else [history[-1]]),
+                    messages=request_messages,
                     tool_definitions=self._tool_executor.tool_definitions,
                 ),
                 previous_response_id

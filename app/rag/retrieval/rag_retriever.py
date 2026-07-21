@@ -29,7 +29,7 @@ Retrieved Chunks
 
 from __future__ import annotations
 
-from app.rag.rag_schemas import RetrievedChunk
+from app.rag.rag_schemas import Chunk
 from app.rag.retrieval.rag_store import RAGStore
 
 
@@ -56,7 +56,7 @@ class RAGRetriever:
         embedding: list[float],
         *,
         top_k: int = 5,
-    ) -> list[RetrievedChunk]:
+    ) -> list[Chunk]:
         """
         Retrieve the most relevant chunks.
 
