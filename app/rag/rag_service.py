@@ -47,7 +47,48 @@ class RAGService:
         query: str,
         history: list[Message] | None = None, # Not used yet
     ) -> RAGResponse:
+        """
+        Answer user query directly after retrieved the context
+        """
+        # Handle request search for chunks
+        retrieved_chunks, rewritten_query = await self.search_context(query=query)
+
+        # Nothing relevant was found.
+        if not retrieved_chunks:
+            return RAGResponse(
+                answer=(
+                    "I couldn't find enough information in my "
+                    "knowledge base to answer that question."
+                ),
+            )
         
+        # Build the system message with retrieval data
+        generator_messages = self._context.prompt_builder.build(
+            query=rewritten_query,
+            chunks=retrieved_chunks,
+        )
+
+        response = await self._context.generator.generate(
+            GenerationRequest(
+                messages=generator_messages,
+                tool_definitions=[]
+            )
+        )
+
+        response_obj = json.loads(response.response)
+        return RAGResponse(
+            answer=response_obj["answer"],
+            sources=response_obj["sources"],
+        )
+    
+
+    async def search_context(
+        self,
+        query: str,
+    ):
+        """
+        RAG pipeline - retrieve chunks
+        """
         # Normalize query
         normalized_query = await self._context.query_normalizer.normalize(query)
 
@@ -80,34 +121,8 @@ class RAGService:
         )
 
         # Remove duplicates and reduce the context size.
-        chunks = await self._context.compressor.compress(
+        retrieved_chunks = await self._context.compressor.compress(
             retrieved_chunks,
         )
 
-        # Nothing relevant was found.
-        if not chunks:
-            return RAGResponse(
-                answer=(
-                    "I couldn't find enough information in my "
-                    "knowledge base to answer that question."
-                ),
-            )
-        
-        # Build the system message with retrieval data
-        generator_messages = self._context.prompt_builder.build(
-            query=rewritten_query,
-            chunks=chunks,
-        )
-
-        response = await self._context.generator.generate(
-            GenerationRequest(
-                messages=generator_messages,
-                tool_definitions=[]
-            )
-        )
-
-        response_obj = json.loads(response.response)
-        return RAGResponse(
-            answer=response_obj["answer"],
-            sources=response_obj["sources"],
-        )
+        return retrieved_chunks, rewritten_query

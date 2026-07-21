@@ -53,7 +53,7 @@ class RAGCompressor:
     async def compress(
         self,
         retrieved_chunks: list[RetrievedChunk],
-    ) -> list[Chunk]:
+    ) -> list[RetrievedChunk]:
         """
         Compress retrieved chunks.
 
@@ -76,13 +76,13 @@ class RAGCompressor:
 
         retrieved_chunks = self._remove_duplicates(retrieved_chunks)
 
-        chunks = [
-            chunk.chunk
+        retrieved_chunks = [
+            chunk
             for chunk in retrieved_chunks
             if chunk.score >= self._min_score
         ]
 
-        return chunks[: self._max_chunks]
+        return retrieved_chunks[: self._max_chunks]
 
     @staticmethod
     def _remove_duplicates(
