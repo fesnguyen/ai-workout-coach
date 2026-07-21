@@ -7,6 +7,7 @@ from __future__ import annotations
 from openai import AsyncOpenAI
 import json
 
+from app.api.exceptions import InvalidPreviousResponseError
 from app.llm.base_generator import BaseGenerator
 from app.llm.llm_schemas import (
     GenerationRequest,
@@ -48,13 +49,18 @@ class OpenAIGenerator(BaseGenerator):
             "model": self._model,
             "input": self._build_input(request.messages),
             "max_output_tokens": request.max_tokens,
-            "previous_response_id": previous_response_id,
+            "previous_response_id": previous_response_id or None,
         }
 
         if request.tool_definitions:
             kwargs["tools"] = request.tool_definitions
 
-        response = await self._client.responses.create(**kwargs)
+        try:
+            response = await self._client.responses.create(**kwargs)
+        except Exception as ex:
+            raise InvalidPreviousResponseError(
+                "Invalid previous_response_id."
+            ) from ex
 
         # Collect tool calls
         tool_calls = []
