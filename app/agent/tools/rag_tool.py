@@ -64,7 +64,7 @@ class RagTool(BaseTool):
 
         # Retrieve the relevant knowledge without generating a user-facing
         # response.
-        chunks, _ = (
+        chunks = (
             await self._rag_service.search_context(
                 query=query,
             )

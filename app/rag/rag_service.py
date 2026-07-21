@@ -7,7 +7,7 @@ from app.rag.embedding.base_embedder import BaseEmbedder
 from app.rag.retrieval.query_analyzer import Classification, QueryAnalysis
 from app.rag.retrieval.query_preprocessor import ProcessedQuery
 from app.rag.rag_context import RAGContext
-from app.rag.rag_schemas import RAGResponse
+from app.rag.rag_schemas import Chunk, RAGResponse
 
 
 class RAGService:
@@ -45,13 +45,23 @@ class RAGService:
     async def search(
         self,
         query: str,
-        history: list[Message] | None = None, # Not used yet
     ) -> RAGResponse:
         """
         Answer user query directly after retrieved the context
         """
+        query_analysis = await self._analyze_query(query=query)
+
+        # Redict or completely refuse the question gentally
+        if query_analysis.classification != Classification.FITNESS:
+            return RAGResponse(
+                answer=query_analysis.response,
+            )
+
         # Handle request search for chunks
-        chunks, rewritten_query = await self.search_context(query=query)
+        rewritten_query = query_analysis.rewritten_query
+        chunks = await self._retrieve_and_compress_chunks(
+            rewritten_query
+        )
 
         # Nothing relevant was found.
         if not chunks:
@@ -68,6 +78,7 @@ class RAGService:
             chunks=chunks,
         )
 
+        # Answer use query
         response = await self._context.generator.generate(
             GenerationRequest(
                 messages=generator_messages,
@@ -75,19 +86,24 @@ class RAGService:
             )
         )
 
-        response_obj = json.loads(response.response)
-        return RAGResponse(
-            answer=response_obj["answer"],
-            sources=response_obj["sources"],
-        )
-    
+        try:
+            response_obj = json.loads(response.response)
+            return RAGResponse(
+                answer=response_obj.get("answer", response.response),
+                sources=response_obj.get("sources", []),
+            )
+        except json.JSONDecodeError:
+            return RAGResponse(
+                answer=response.response,
+                sources=[],
+            )
 
-    async def search_context(
+    async def _analyze_query(
         self,
         query: str,
     ):
         """
-        RAG pipeline - retrieve chunks
+        Query Guardrail, Classification and Analysis
         """
         # Normalize query
         normalized_query = await self._context.query_normalizer.normalize(query)
@@ -101,14 +117,14 @@ class RAGService:
         # Guard rail, classify, rewrite querry
         query_analysis: QueryAnalysis = await self._context.query_analyzer \
             .analyze(preprocessed_query)
-
-        # Redict or completely refuse the question gentally
-        if query_analysis.classification != Classification.FITNESS:
-            return RAGResponse(
-                answer=query_analysis.response,
-            )
         
-        rewritten_query = query_analysis.rewritten_query
+        return query_analysis
+
+
+    async def _retrieve_and_compress_chunks(
+        self,
+        rewritten_query: str,
+    ):
         # Convert the rewritten query into an embedding.
         embedding = await self._context.embedder.embed_query(
             rewritten_query,
@@ -125,4 +141,22 @@ class RAGService:
             chunks,
         )
 
-        return chunks, rewritten_query
+        return chunks
+
+
+    async def search_context(
+        self,
+        query: str,
+    ) -> list[Chunk]:
+        """
+        RAG pipeline - retrieve chunks
+        """
+        query_analysis = await self._analyze_query(query=query)
+
+        # Return empty query got rejected
+        if query_analysis.classification != Classification.FITNESS:
+            return []
+        
+        return await self._retrieve_and_compress_chunks(
+            query_analysis.rewritten_query
+        )
