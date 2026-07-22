@@ -12,7 +12,7 @@ from evaluation.report_builder import ReportBuilder
 
 
 def load_cases(filename: str) -> list[SearchCase]:
-    dataset = Path(__file__).parent / "data" / filename
+    dataset = Path(__file__).parent / "datasets" / filename
 
     with dataset.open("r", encoding="utf-8") as f:
         raw_cases = json.load(f)

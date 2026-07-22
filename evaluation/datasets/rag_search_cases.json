@@ -1,0 +1,78 @@
+[
+  {
+    "id": "rag_001",
+    "query": "What is progressive overload?",
+    "expected": {
+      "answer": "Progressive overload is the principle of gradually increasing training demands over time to stimulate adaptation. This can be achieved by increasing weight, repetitions, sets, training frequency, or intensity.",
+      "facts": [
+        "progressive overload",
+        "adaptation",
+        "weight",
+        "repetitions",
+        "sets",
+        "training frequency",
+        "intensity"
+      ]
+    }
+  },
+  {
+    "id": "rag_002",
+    "query": "Why is protein important after resistance training?",
+    "expected": {
+      "answer": "Protein provides amino acids that support muscle protein synthesis, repair damaged muscle tissue, and promote recovery after resistance training.",
+      "facts": [
+        "protein",
+        "amino acids",
+        "muscle protein synthesis",
+        "repair",
+        "recovery"
+      ]
+    }
+  },
+  {
+    "id": "rag_003",
+    "query": "How many rest days should I take each week?",
+    "expected": {
+      "answer": "Most people benefit from one to three rest days per week depending on their training intensity, experience, and recovery capacity.",
+      "facts": [
+        "1 to 3",
+        "rest days",
+        "training intensity",
+        "experience",
+        "recovery"
+      ]
+    }
+  },
+  {
+    "id": "rag_004",
+    "query": "What are compound exercises?",
+    "expected": {
+      "answer": "Compound exercises are movements that involve multiple joints and muscle groups simultaneously, such as squats, deadlifts, bench presses, and pull-ups.",
+      "facts": [
+        "compound exercises",
+        "multiple joints",
+        "muscle groups",
+        "squat",
+        "deadlift",
+        "bench press",
+        "pull-up"
+      ]
+    }
+  },
+  {
+    "id": "rag_005",
+    "query": "Why is warming up before a workout important?",
+    "expected": {
+      "answer": "A proper warm-up prepares the muscles and joints for exercise, increases blood flow, improves mobility and performance, and helps reduce the risk of injury.",
+      "facts": [
+        "warm-up",
+        "muscles",
+        "joints",
+        "blood flow",
+        "mobility",
+        "performance",
+        "injury"
+      ]
+    }
+  }
+]

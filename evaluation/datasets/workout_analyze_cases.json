@@ -1,0 +1,110 @@
+[
+  {
+    "id": "analysis_001",
+    "request": {
+      "query": "How is my training progressing?",
+      "user_profile": {
+        "name": "Alice",
+        "workouts": "fixtures/alice_plateau.json"
+      }
+    },
+    "expected": {
+      "answer": "The user has trained consistently but appears to have plateaued on the bench press. Recovery strategies or a deload may help resume progress.",
+      "findings": [
+        "consistent training",
+        "bench press plateau"
+      ],
+      "recommendations": [
+        "deload",
+        "increase recovery"
+      ]
+    }
+  },
+  {
+    "id": "analysis_002",
+    "request": {
+      "query": "Am I making good progress?",
+      "user_profile": {
+        "name": "Bob",
+        "workouts": "fixtures/bob_progressive.json"
+      }
+    },
+    "expected": {
+      "answer": "The user demonstrates progressive overload with increasing training volume and several personal records.",
+      "findings": [
+        "progressive overload",
+        "increasing volume",
+        "personal records"
+      ],
+      "recommendations": [
+        "continue progression",
+        "maintain recovery"
+      ]
+    }
+  },
+  {
+    "id": "analysis_003",
+    "request": {
+      "query": "Is there anything wrong with my routine?",
+      "user_profile": {
+        "name": "Charlie",
+        "workouts": "fixtures/charlie_overtraining.json"
+      }
+    },
+    "expected": {
+      "answer": "The user trains very frequently with limited recovery, increasing the risk of overtraining.",
+      "findings": [
+        "high frequency",
+        "limited recovery",
+        "overtraining risk"
+      ],
+      "recommendations": [
+        "add rest days",
+        "reduce volume"
+      ]
+    }
+  },
+  {
+    "id": "analysis_004",
+    "request": {
+      "query": "Can you analyze my workout history?",
+      "user_profile": {
+        "name": "David",
+        "workouts": "fixtures/david_inconsistent.json"
+      }
+    },
+    "expected": {
+      "answer": "Training frequency is inconsistent, making progressive overload difficult to achieve.",
+      "findings": [
+        "inconsistent training",
+        "low frequency"
+      ],
+      "recommendations": [
+        "train consistently",
+        "follow a schedule"
+      ]
+    }
+  },
+  {
+    "id": "analysis_005",
+    "request": {
+      "query": "How balanced is my program?",
+      "user_profile": {
+        "name": "Emma",
+        "workouts": "fixtures/emma_balanced.json"
+      }
+    },
+    "expected": {
+      "answer": "The user follows a balanced program with good exercise variety, appropriate recovery, and steady progression.",
+      "findings": [
+        "balanced program",
+        "exercise variety",
+        "steady progression"
+      ],
+      "recommendations": [
+        "maintain program",
+        "continue progression"
+      ]
+    }
+  }
+]
