@@ -1,18 +1,24 @@
 from abc import ABC, abstractmethod
 
-from tests.models import JudgeResult, SearchCase
+from evaluation.models import (
+    EvaluationContext,
+    JudgeResult,
+    SearchCase,
+)
 
 
 class BaseJudge(ABC):
     """
-    Evaluates whether a generated answer satisfies
-    the expectations of a test case.
+    Base class for all evaluation judges.
     """
 
     @abstractmethod
     async def evaluate(
         self,
         case: SearchCase,
-        answer: str,
+        context: EvaluationContext,
     ) -> JudgeResult:
+        """
+        Evaluate one test case.
+        """
         ...

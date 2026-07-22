@@ -1,6 +1,13 @@
 from dataclasses import dataclass
 from typing import Any
 
+from app.rag.rag_schemas import RAGResponse
+
+
+@dataclass(slots=True)
+class ExpectedAnswer:
+    answer: str
+    facts: list[str]
 
 @dataclass(slots=True)
 class SearchCase:
@@ -10,7 +17,16 @@ class SearchCase:
 
     id: str
     query: str
-    expected: dict[str, Any]
+    expected: ExpectedAnswer
+
+
+@dataclass(slots=True)
+class EvaluationContext:
+    """
+    Shared context passed to every evaluation judge.
+    """
+
+    response: RAGResponse
 
 
 @dataclass(slots=True)

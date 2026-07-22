@@ -5,7 +5,9 @@ from pathlib import Path
 from app.application_container import ApplicationContainer
 
 from evaluation.judges.faithfulness_judge import FaithfulnessJudge
-from evaluation.models import EvaluationResult, SearchCase
+from evaluation.judges.source_judge import SourceJudge
+from evaluation.judges.fact_coverage_judge import FactCoverageJudge
+from evaluation.models import EvaluationContext, EvaluationResult, ExpectedAnswer, SearchCase
 from evaluation.report_builder import ReportBuilder
 
 
@@ -16,7 +18,11 @@ def load_cases(filename: str) -> list[SearchCase]:
         raw_cases = json.load(f)
 
     return [
-        SearchCase(**case)
+        SearchCase(
+            id=case["id"],
+            query=case["query"],
+            expected=ExpectedAnswer(**case["expected"]),
+        )
         for case in raw_cases
     ]
 
@@ -30,8 +36,8 @@ async def evaluate_rag_search(
 
     judges = [
         FaithfulnessJudge(generator),
-        # SourceJudge(),
-        # StructureJudge(),
+        SourceJudge(),
+        FactCoverageJudge(),
     ]
 
     results: list[EvaluationResult] = []
@@ -41,10 +47,14 @@ async def evaluate_rag_search(
 
         response = await rag.search(case.query)
 
+        context = EvaluationContext(
+            response=response,
+        )
+
         for judge in judges:
             judge_result = await judge.evaluate(
                 case=case,
-                answer=response.answer,
+                context=context,
             )
 
             results.append(

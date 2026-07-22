@@ -1,8 +1,9 @@
+from dataclasses import asdict
 import json
 
 from app.llm.base_generator import BaseGenerator
 from app.llm.llm_schemas import GenerationRequest
-from evaluation.models import JudgeResult, SearchCase
+from evaluation.models import EvaluationContext, JudgeResult, SearchCase
 
 
 SYSTEM_PROMPT = """
@@ -47,14 +48,16 @@ class FaithfulnessJudge:
     async def evaluate(
         self,
         case: SearchCase,
-        answer: str,
+        context: EvaluationContext,
     ) -> JudgeResult:
+        answer = context.response.answer
+
         prompt = f"""
 Question:
 {case.query}
 
 Expected:
-{json.dumps(case.expected, indent=2)}
+{json.dumps(asdict(case.expected), indent=2)}
 
 Generated Answer:
 {answer}
