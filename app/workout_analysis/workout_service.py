@@ -8,6 +8,7 @@ from langchain_text_splitters import json
 from app.api.api_schemas import WorkoutAnalyzeRequest, WorkoutAnalyzeResponse
 from app.llm.base_generator import BaseGenerator
 from app.llm.llm_schemas import GenerationRequest
+from app.prompts.system_prompt_builder import SystemPromptBuilder
 from app.workout_analysis.compression.empty_metric_compression import EmptyMetricCompression
 from app.workout_analysis.compression.exercise_filter_compression import ExerciseFilterCompression
 from app.workout_analysis.compression.metric_selection_compression import MetricSelectionCompression
@@ -47,6 +48,7 @@ class WorkoutService:
     def __init__(
         self,
         generator: BaseGenerator,
+        system_prompt_builder: SystemPromptBuilder,
     ) -> None:
         self._context = WorkoutContext(
             metrics=[
@@ -66,7 +68,8 @@ class WorkoutService:
                 # ExerciseFilterCompression(),
                 # MetricSelectionCompression(),
             ],
-            generator=generator
+            generator=generator,
+            system_prompt_builder=system_prompt_builder,
         )
 
     async def analyze(
@@ -122,7 +125,7 @@ class WorkoutService:
         Invoke the LLM generator to answer a user's query based on their workout analysis.
         """
 
-        analysis_messages = self._context.prompt_builder.build(
+        analysis_messages = self._context.workout_prompt_builder.build(
             query=query,
             analysis=analysis,
         )

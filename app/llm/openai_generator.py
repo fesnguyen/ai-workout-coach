@@ -13,6 +13,7 @@ from app.llm.llm_schemas import (
     GenerationRequest,
     GenerationResponse,
     Message,
+    TokenUsage,
     ToolCall,
     ToolOutput,
 )
@@ -49,6 +50,7 @@ class OpenAIGenerator(BaseGenerator):
             "model": self._model,
             "input": self._build_input(request.messages),
             "max_output_tokens": request.max_tokens,
+            "reasoning": {"effort": "medium"},
             "previous_response_id": previous_response_id or None,
         }
 
@@ -79,6 +81,11 @@ class OpenAIGenerator(BaseGenerator):
             tool_calls=tool_calls,
             previous_response_id=response.id,
             finish_reason=response.status,
+            token_usage=TokenUsage(
+                input_tokens=response.usage.input_tokens,
+                output_tokens=response.usage.output_tokens,
+                total_tokens=response.usage.total_tokens,
+            ),
         )
 
     @staticmethod

@@ -1,21 +1,24 @@
 from app.llm.llm_schemas import Message
+from app.prompts.system_prompt_builder import SystemPromptBuilder
 from app.rag.rag_schemas import Chunk
 
 
-GENERATOR_SYSTEM_PROMPT = """
+RAG_SYSTEM_PROMPT = """
 You are a fitness assistant.
 
 Answer the user's question using only the provided knowledge base.
 
 Instructions:
-- Prioritize answer what you're sure first before comming up with what's not.
-- Asking follow up question at the end if it's relatedto fitness, nutrition, workout.
+- Prioritize answer what you're sure first before coming up with what's not.
+- Asking follow up question at the end if it's related to fitness, nutrition, workout.
 - Use the provided knowledge base as the source of truth, but do not mention it.
 - If the answer is not supported by the knowledge base, say that you don't know.
 - Do not invent facts or use outside knowledge.
 - Keep your answer accurate, concise, and helpful.
 - If the request asks for medical diagnosis or treatment advice, politely refuse and recommend consulting a qualified healthcare professional.
+"""
 
+RESPONSE_RULES = """
 Return schema:
 
 {
@@ -33,8 +36,14 @@ Return schema:
 """.strip()
 
 
-class PromptBuilder:
+class RAGPromptBuilder:
     """Builds the prompt for the answer generation model."""
+
+    def __init__(
+        self,
+        system_prompt_builder: SystemPromptBuilder,
+    ) -> None:
+        self._system_prompt_builder = system_prompt_builder
 
     def build(
         self,
@@ -48,7 +57,12 @@ class PromptBuilder:
         return [
             Message(
                 role="system",
-                content=GENERATOR_SYSTEM_PROMPT,
+                content=RAG_SYSTEM_PROMPT,
+            ),
+            *self._system_prompt_builder.build_rag_prompt(),
+            Message(
+                role="system",
+                content=RESPONSE_RULES,
             ),
             Message(
                 role="system",

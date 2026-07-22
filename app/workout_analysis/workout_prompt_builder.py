@@ -3,15 +3,12 @@ from __future__ import annotations
 import json
 
 from app.llm.llm_schemas import Message
+from app.prompts.system_prompt_builder import SystemPromptBuilder
 from app.workout_analysis.workout_schemas import AnalysisResult
 
 
-SYSTEM_PROMPT = """
-You are an experienced fitness coach.
-
-Your task is to analyze a user's workout history based ONLY on the provided workout analysis.
-
-Guidelines:
+ANALYZER_RESPONSE_RULE = """
+Strictly follow these rules:
 
 - Answer the user's question directly.
 - Base your answer only on the provided analysis.
@@ -24,15 +21,22 @@ Guidelines:
 
 class WorkoutPromptBuilder:
 
+    def __init__(
+        self,
+        system_prompt_builder: SystemPromptBuilder,
+    ) -> None:
+        self.system_prompt_builder = system_prompt_builder
+
     def build(
         self,
         query: str,
         analysis: AnalysisResult,
-    ) -> list:
+    ) -> list[Message]:
         return [
+            *self.system_prompt_builder.build_workout_analysis_prompt(),
             Message(
                 role="system",
-                content=SYSTEM_PROMPT,
+                content=ANALYZER_RESPONSE_RULE,
             ),
             Message(
                 role="user",
