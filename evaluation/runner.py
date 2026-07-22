@@ -4,8 +4,10 @@ from pathlib import Path
 
 from app.api.api_schemas import UserProfile, WorkoutAnalyzeRequest
 from app.application_container import ApplicationContainer
+from evaluation.evaluators.agent_evaluator import evaluate_agent
 from evaluation.judges.rag_search.rag_search_registry import build_rag_judges
 from evaluation.judges.workout_analysis.workout_analysis_registry import build_workout_judges
+from evaluation.judges.agent.agent_registry import build_agent_judges
 
 from evaluation.models import EvaluationContext, EvaluationResult, ExpectedAnswer, ExpectedWorkoutAnalysis, SearchCase, WorkoutAnalysisCase
 from evaluation.report_builder import ReportBuilder
@@ -15,6 +17,7 @@ from evaluation.evaluators.workout_analysis_evaluator import evaluate_workout_an
 JUDGE_REGISTRY = {
     "rag": build_rag_judges,
     "workout": build_workout_judges,
+    "agent": build_agent_judges,
 }
 
 
@@ -36,17 +39,18 @@ async def main() -> None:
         #
         # Workout analysis evaluation.
         #
+        # results.extend(
+        #     await evaluate_workout_analysis(
+        #         container=container,
+        #         judges=JUDGE_REGISTRY["workout"](container)
+        #     )
+        # )
         results.extend(
-            await evaluate_workout_analysis(
+            await evaluate_agent(
                 container=container,
-                judges=JUDGE_REGISTRY["workout"](container)
+                judges=JUDGE_REGISTRY["agent"](container)
             )
         )
-        #
-        # results.extend(
-        #     await evaluate_agent(container)
-        # )
-        #
         # results.extend(
         #     await evaluate_adversarial(container)
         # )

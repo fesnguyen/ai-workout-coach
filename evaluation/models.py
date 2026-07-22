@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Any
 
-from app.api.api_schemas import WorkoutAnalyzeRequest
+from app.api.api_schemas import ChatRequest, WorkoutAnalyzeRequest
 from app.rag.rag_schemas import RAGResponse
 from app.workout_analysis.workout_schemas import AnalysisResult
 
@@ -37,6 +37,13 @@ class WorkoutAnalysisCase:
     request: WorkoutAnalyzeRequest
 
     expected: ExpectedWorkoutAnalysis
+
+
+@dataclass(slots=True)
+class AgentCase:
+    id: str
+    request: ChatRequest
+    expected: ExpectedAnswer
 
 
 @dataclass(slots=True)
