@@ -1,8 +1,6 @@
 import asyncio
-import json
 from pathlib import Path
 
-from app.api.api_schemas import UserProfile, WorkoutAnalyzeRequest
 from app.application_container import ApplicationContainer
 from evaluation.evaluators.adversarial_evaluator import evaluate_adversarial
 from evaluation.evaluators.agent_evaluator import evaluate_agent
@@ -11,7 +9,7 @@ from evaluation.judges.workout_analysis.workout_analysis_registry import build_w
 from evaluation.judges.agent.agent_registry import build_agent_judges
 from evaluation.judges.adversarial.adversarial_registry import build_adversarial_judges
 
-from evaluation.models import EvaluationContext, EvaluationResult, ExpectedAnswer, ExpectedWorkoutAnalysis, SearchCase, WorkoutAnalysisCase
+from evaluation.models import EvaluationResult
 from evaluation.report_builder import ReportBuilder
 from evaluation.evaluators.rag_search_evaluator import evaluate_rag_search
 from evaluation.evaluators.workout_analysis_evaluator import evaluate_workout_analysis, load_workout_analysis_cases
@@ -74,7 +72,7 @@ async def main() -> None:
 
         ReportBuilder().build(
             results=results,
-            output=Path("EVALUATION.md"),
+            output=Path("EVALUATION_REPORT.md"),
         )
 
         passed = sum(
@@ -91,7 +89,7 @@ async def main() -> None:
         print(f"Total  : {len(results)}")
         print(f"Passed : {passed}")
         print(f"Failed : {failed}")
-        print("Report : EVALUATION.md")
+        print("Report : EVALUATION_REPORT.md")
         print("========================================")
 
     finally:
