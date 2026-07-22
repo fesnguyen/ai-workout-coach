@@ -1,0 +1,509 @@
+{
+  "name": "Bob",
+  "workouts": [
+    {
+      "date": "2026-01-05",
+      "exercise": "Bench Press",
+      "sets": [
+        {
+          "reps": 8,
+          "weight": 80,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 80,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 80,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-01-07",
+      "exercise": "Squat",
+      "sets": [
+        {
+          "reps": 8,
+          "weight": 110,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 110,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 110,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-01-09",
+      "exercise": "Deadlift",
+      "sets": [
+        {
+          "reps": 5,
+          "weight": 142,
+          "unit": "kg"
+        },
+        {
+          "reps": 5,
+          "weight": 142,
+          "unit": "kg"
+        },
+        {
+          "reps": 5,
+          "weight": 142,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-01-12",
+      "exercise": "Bench Press",
+      "sets": [
+        {
+          "reps": 8,
+          "weight": 82.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 82.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 82.5,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-01-14",
+      "exercise": "Squat",
+      "sets": [
+        {
+          "reps": 8,
+          "weight": 112.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 112.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 112.5,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-01-16",
+      "exercise": "Deadlift",
+      "sets": [
+        {
+          "reps": 5,
+          "weight": 145,
+          "unit": "kg"
+        },
+        {
+          "reps": 5,
+          "weight": 145,
+          "unit": "kg"
+        },
+        {
+          "reps": 5,
+          "weight": 145,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-01-19",
+      "exercise": "Bench Press",
+      "sets": [
+        {
+          "reps": 8,
+          "weight": 85.0,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 85.0,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 85.0,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-01-21",
+      "exercise": "Squat",
+      "sets": [
+        {
+          "reps": 8,
+          "weight": 115.0,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 115.0,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 115.0,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-01-23",
+      "exercise": "Deadlift",
+      "sets": [
+        {
+          "reps": 5,
+          "weight": 148,
+          "unit": "kg"
+        },
+        {
+          "reps": 5,
+          "weight": 148,
+          "unit": "kg"
+        },
+        {
+          "reps": 5,
+          "weight": 148,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-01-26",
+      "exercise": "Bench Press",
+      "sets": [
+        {
+          "reps": 8,
+          "weight": 87.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 87.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 87.5,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-01-28",
+      "exercise": "Squat",
+      "sets": [
+        {
+          "reps": 8,
+          "weight": 117.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 117.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 117.5,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-01-30",
+      "exercise": "Deadlift",
+      "sets": [
+        {
+          "reps": 5,
+          "weight": 151,
+          "unit": "kg"
+        },
+        {
+          "reps": 5,
+          "weight": 151,
+          "unit": "kg"
+        },
+        {
+          "reps": 5,
+          "weight": 151,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-02-02",
+      "exercise": "Bench Press",
+      "sets": [
+        {
+          "reps": 8,
+          "weight": 90.0,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 90.0,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 90.0,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-02-04",
+      "exercise": "Squat",
+      "sets": [
+        {
+          "reps": 8,
+          "weight": 120.0,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 120.0,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 120.0,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-02-06",
+      "exercise": "Deadlift",
+      "sets": [
+        {
+          "reps": 5,
+          "weight": 154,
+          "unit": "kg"
+        },
+        {
+          "reps": 5,
+          "weight": 154,
+          "unit": "kg"
+        },
+        {
+          "reps": 5,
+          "weight": 154,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-02-09",
+      "exercise": "Bench Press",
+      "sets": [
+        {
+          "reps": 8,
+          "weight": 92.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 92.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 92.5,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-02-11",
+      "exercise": "Squat",
+      "sets": [
+        {
+          "reps": 8,
+          "weight": 122.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 122.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 122.5,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-02-13",
+      "exercise": "Deadlift",
+      "sets": [
+        {
+          "reps": 5,
+          "weight": 157,
+          "unit": "kg"
+        },
+        {
+          "reps": 5,
+          "weight": 157,
+          "unit": "kg"
+        },
+        {
+          "reps": 5,
+          "weight": 157,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-02-16",
+      "exercise": "Bench Press",
+      "sets": [
+        {
+          "reps": 8,
+          "weight": 95.0,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 95.0,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 95.0,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-02-18",
+      "exercise": "Squat",
+      "sets": [
+        {
+          "reps": 8,
+          "weight": 125.0,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 125.0,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 125.0,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-02-20",
+      "exercise": "Deadlift",
+      "sets": [
+        {
+          "reps": 5,
+          "weight": 160,
+          "unit": "kg"
+        },
+        {
+          "reps": 5,
+          "weight": 160,
+          "unit": "kg"
+        },
+        {
+          "reps": 5,
+          "weight": 160,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-02-23",
+      "exercise": "Bench Press",
+      "sets": [
+        {
+          "reps": 8,
+          "weight": 97.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 97.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 97.5,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-02-25",
+      "exercise": "Squat",
+      "sets": [
+        {
+          "reps": 8,
+          "weight": 127.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 127.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 127.5,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-02-27",
+      "exercise": "Deadlift",
+      "sets": [
+        {
+          "reps": 5,
+          "weight": 163,
+          "unit": "kg"
+        },
+        {
+          "reps": 5,
+          "weight": 163,
+          "unit": "kg"
+        },
+        {
+          "reps": 5,
+          "weight": 163,
+          "unit": "kg"
+        }
+      ]
+    }
+  ]
+}

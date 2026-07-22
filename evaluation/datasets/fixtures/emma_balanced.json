@@ -1,0 +1,677 @@
+{
+  "name": "Emma",
+  "workouts": [
+    {
+      "date": "2026-01-05",
+      "exercise": "Squat",
+      "sets": [
+        {
+          "reps": 8,
+          "weight": 85,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 85,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 85,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-01-07",
+      "exercise": "Bench Press",
+      "sets": [
+        {
+          "reps": 10,
+          "weight": 55,
+          "unit": "kg"
+        },
+        {
+          "reps": 10,
+          "weight": 55,
+          "unit": "kg"
+        },
+        {
+          "reps": 9,
+          "weight": 55,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-01-09",
+      "exercise": "Barbell Row",
+      "sets": [
+        {
+          "reps": 10,
+          "weight": 55,
+          "unit": "kg"
+        },
+        {
+          "reps": 10,
+          "weight": 55,
+          "unit": "kg"
+        },
+        {
+          "reps": 10,
+          "weight": 55,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-01-09",
+      "exercise": "Overhead Press",
+      "sets": [
+        {
+          "reps": 10,
+          "weight": 35,
+          "unit": "kg"
+        },
+        {
+          "reps": 9,
+          "weight": 35,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 35,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-01-12",
+      "exercise": "Squat",
+      "sets": [
+        {
+          "reps": 8,
+          "weight": 87.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 87.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 87.5,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-01-14",
+      "exercise": "Bench Press",
+      "sets": [
+        {
+          "reps": 10,
+          "weight": 56.25,
+          "unit": "kg"
+        },
+        {
+          "reps": 10,
+          "weight": 56.25,
+          "unit": "kg"
+        },
+        {
+          "reps": 9,
+          "weight": 56.25,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-01-16",
+      "exercise": "Barbell Row",
+      "sets": [
+        {
+          "reps": 10,
+          "weight": 56.25,
+          "unit": "kg"
+        },
+        {
+          "reps": 10,
+          "weight": 56.25,
+          "unit": "kg"
+        },
+        {
+          "reps": 10,
+          "weight": 56.25,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-01-16",
+      "exercise": "Overhead Press",
+      "sets": [
+        {
+          "reps": 10,
+          "weight": 36.25,
+          "unit": "kg"
+        },
+        {
+          "reps": 9,
+          "weight": 36.25,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 36.25,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-01-19",
+      "exercise": "Squat",
+      "sets": [
+        {
+          "reps": 8,
+          "weight": 90.0,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 90.0,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 90.0,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-01-21",
+      "exercise": "Bench Press",
+      "sets": [
+        {
+          "reps": 10,
+          "weight": 57.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 10,
+          "weight": 57.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 9,
+          "weight": 57.5,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-01-23",
+      "exercise": "Barbell Row",
+      "sets": [
+        {
+          "reps": 10,
+          "weight": 57.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 10,
+          "weight": 57.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 10,
+          "weight": 57.5,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-01-23",
+      "exercise": "Overhead Press",
+      "sets": [
+        {
+          "reps": 10,
+          "weight": 37.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 9,
+          "weight": 37.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 37.5,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-01-26",
+      "exercise": "Squat",
+      "sets": [
+        {
+          "reps": 8,
+          "weight": 92.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 92.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 92.5,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-01-28",
+      "exercise": "Bench Press",
+      "sets": [
+        {
+          "reps": 10,
+          "weight": 58.75,
+          "unit": "kg"
+        },
+        {
+          "reps": 10,
+          "weight": 58.75,
+          "unit": "kg"
+        },
+        {
+          "reps": 9,
+          "weight": 58.75,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-01-30",
+      "exercise": "Barbell Row",
+      "sets": [
+        {
+          "reps": 10,
+          "weight": 58.75,
+          "unit": "kg"
+        },
+        {
+          "reps": 10,
+          "weight": 58.75,
+          "unit": "kg"
+        },
+        {
+          "reps": 10,
+          "weight": 58.75,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-01-30",
+      "exercise": "Overhead Press",
+      "sets": [
+        {
+          "reps": 10,
+          "weight": 38.75,
+          "unit": "kg"
+        },
+        {
+          "reps": 9,
+          "weight": 38.75,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 38.75,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-02-02",
+      "exercise": "Squat",
+      "sets": [
+        {
+          "reps": 8,
+          "weight": 95.0,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 95.0,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 95.0,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-02-04",
+      "exercise": "Bench Press",
+      "sets": [
+        {
+          "reps": 10,
+          "weight": 60.0,
+          "unit": "kg"
+        },
+        {
+          "reps": 10,
+          "weight": 60.0,
+          "unit": "kg"
+        },
+        {
+          "reps": 9,
+          "weight": 60.0,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-02-06",
+      "exercise": "Barbell Row",
+      "sets": [
+        {
+          "reps": 10,
+          "weight": 60.0,
+          "unit": "kg"
+        },
+        {
+          "reps": 10,
+          "weight": 60.0,
+          "unit": "kg"
+        },
+        {
+          "reps": 10,
+          "weight": 60.0,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-02-06",
+      "exercise": "Overhead Press",
+      "sets": [
+        {
+          "reps": 10,
+          "weight": 40.0,
+          "unit": "kg"
+        },
+        {
+          "reps": 9,
+          "weight": 40.0,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 40.0,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-02-09",
+      "exercise": "Squat",
+      "sets": [
+        {
+          "reps": 8,
+          "weight": 97.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 97.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 97.5,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-02-11",
+      "exercise": "Bench Press",
+      "sets": [
+        {
+          "reps": 10,
+          "weight": 61.25,
+          "unit": "kg"
+        },
+        {
+          "reps": 10,
+          "weight": 61.25,
+          "unit": "kg"
+        },
+        {
+          "reps": 9,
+          "weight": 61.25,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-02-13",
+      "exercise": "Barbell Row",
+      "sets": [
+        {
+          "reps": 10,
+          "weight": 61.25,
+          "unit": "kg"
+        },
+        {
+          "reps": 10,
+          "weight": 61.25,
+          "unit": "kg"
+        },
+        {
+          "reps": 10,
+          "weight": 61.25,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-02-13",
+      "exercise": "Overhead Press",
+      "sets": [
+        {
+          "reps": 10,
+          "weight": 41.25,
+          "unit": "kg"
+        },
+        {
+          "reps": 9,
+          "weight": 41.25,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 41.25,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-02-16",
+      "exercise": "Squat",
+      "sets": [
+        {
+          "reps": 8,
+          "weight": 100.0,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 100.0,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 100.0,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-02-18",
+      "exercise": "Bench Press",
+      "sets": [
+        {
+          "reps": 10,
+          "weight": 62.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 10,
+          "weight": 62.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 9,
+          "weight": 62.5,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-02-20",
+      "exercise": "Barbell Row",
+      "sets": [
+        {
+          "reps": 10,
+          "weight": 62.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 10,
+          "weight": 62.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 10,
+          "weight": 62.5,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-02-20",
+      "exercise": "Overhead Press",
+      "sets": [
+        {
+          "reps": 10,
+          "weight": 42.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 9,
+          "weight": 42.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 42.5,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-02-23",
+      "exercise": "Squat",
+      "sets": [
+        {
+          "reps": 8,
+          "weight": 102.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 102.5,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 102.5,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-02-25",
+      "exercise": "Bench Press",
+      "sets": [
+        {
+          "reps": 10,
+          "weight": 63.75,
+          "unit": "kg"
+        },
+        {
+          "reps": 10,
+          "weight": 63.75,
+          "unit": "kg"
+        },
+        {
+          "reps": 9,
+          "weight": 63.75,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-02-27",
+      "exercise": "Barbell Row",
+      "sets": [
+        {
+          "reps": 10,
+          "weight": 63.75,
+          "unit": "kg"
+        },
+        {
+          "reps": 10,
+          "weight": 63.75,
+          "unit": "kg"
+        },
+        {
+          "reps": 10,
+          "weight": 63.75,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-02-27",
+      "exercise": "Overhead Press",
+      "sets": [
+        {
+          "reps": 10,
+          "weight": 43.75,
+          "unit": "kg"
+        },
+        {
+          "reps": 9,
+          "weight": 43.75,
+          "unit": "kg"
+        },
+        {
+          "reps": 8,
+          "weight": 43.75,
+          "unit": "kg"
+        }
+      ]
+    }
+  ]
+}

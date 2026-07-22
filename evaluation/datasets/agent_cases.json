@@ -1,0 +1,76 @@
+[
+  {
+    "id": "agent_001",
+    "request": {
+      "message": "What is progressive overload?"
+    },
+    "expected": {
+      "answer": "Progressive overload is the gradual increase of training demands over time to continue stimulating muscle adaptation and strength gains.",
+      "facts": [
+        "progressive overload",
+        "gradual increase",
+        "training demands",
+        "adaptation",
+        "strength"
+      ]
+    }
+  },
+  {
+    "id": "agent_002",
+    "request": {
+      "message": "What are the main muscle groups trained during a squat?"
+    },
+    "expected": {
+      "answer": "Squats primarily train the quadriceps, glutes, hamstrings, and core.",
+      "facts": [
+        "quadriceps",
+        "glutes",
+        "hamstrings",
+        "core"
+      ]
+    }
+  },
+  {
+    "id": "agent_003",
+    "request": {
+      "message": "Calculate 125 multiplied by 16."
+    },
+    "expected": {
+      "answer": "125 multiplied by 16 equals 2000.",
+      "facts": [
+        "2000"
+      ]
+    }
+  },
+  {
+    "id": "agent_004",
+    "request": {
+      "message": "Explain the difference between hypertrophy and strength training."
+    },
+    "expected": {
+      "answer": "Hypertrophy training focuses on increasing muscle size, while strength training focuses on increasing maximal force production.",
+      "facts": [
+        "hypertrophy",
+        "muscle size",
+        "strength",
+        "maximal force"
+      ]
+    }
+  },
+  {
+    "id": "agent_005",
+    "request": {
+      "message": "Why is recovery important for muscle growth?"
+    },
+    "expected": {
+      "answer": "Recovery allows muscles to repair and adapt after training, supporting muscle growth and reducing fatigue.",
+      "facts": [
+        "recovery",
+        "repair",
+        "adaptation",
+        "muscle growth",
+        "fatigue"
+      ]
+    }
+  }
+]

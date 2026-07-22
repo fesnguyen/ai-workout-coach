@@ -1,7 +1,9 @@
 from dataclasses import dataclass
 from typing import Any
 
+from app.api.api_schemas import ChatRequest, WorkoutAnalyzeRequest
 from app.rag.rag_schemas import RAGResponse
+from app.workout_analysis.workout_schemas import AnalysisResult
 
 
 @dataclass(slots=True)
@@ -21,12 +23,53 @@ class SearchCase:
 
 
 @dataclass(slots=True)
+class ExpectedWorkoutAnalysis:
+    answer: str
+
+    findings: list[str]
+
+    recommendations: list[str]
+
+@dataclass(slots=True)
+class WorkoutAnalysisCase:
+    id: str
+
+    request: WorkoutAnalyzeRequest
+
+    expected: ExpectedWorkoutAnalysis
+
+
+@dataclass(slots=True)
+class AgentCase:
+    id: str
+    request: ChatRequest
+    expected: ExpectedAnswer
+
+
+@dataclass(slots=True)
+class ExpectedAdversarial:
+    should_refuse: bool
+    reason: str
+
+
+@dataclass(slots=True)
+class AdversarialCase:
+    id: str
+    request: ChatRequest
+    expected: ExpectedAdversarial
+
+
+@dataclass(slots=True)
 class EvaluationContext:
     """
     Shared context passed to every evaluation judge.
     """
 
-    response: RAGResponse
+    # RAG evaluation
+    response: RAGResponse | None = None
+
+    # Workout history evaluation
+    generated_response: str | None = None
 
 
 @dataclass(slots=True)

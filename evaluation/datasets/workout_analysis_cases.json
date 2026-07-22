@@ -11,12 +11,12 @@
     "expected": {
       "answer": "The user has trained consistently but appears to have plateaued on the bench press. Recovery strategies or a deload may help resume progress.",
       "findings": [
-        "consistent training",
-        "bench press plateau"
+        ["consistent", "regular", "steady", "stable"],
+        ["plateau", "stuck", "stagnant", "leveling off"]
       ],
       "recommendations": [
-        "deload",
-        "increase recovery"
+        ["deload", "light week", "reduce intensity"],
+        ["recovery", "rest", "sleep", "manage fatigue"]
       ]
     }
   },
@@ -32,13 +32,13 @@
     "expected": {
       "answer": "The user demonstrates progressive overload with increasing training volume and several personal records.",
       "findings": [
-        "progressive overload",
-        "increasing volume",
-        "personal records"
+        ["progressive overload", "progression", "upward trend", "improving"],
+        ["increasing volume", "volume growth", "more sets", "load totals"],
+        ["personal record", "pr", "best", "hit new"]
       ],
       "recommendations": [
-        "continue progression",
-        "maintain recovery"
+        ["continue", "keep going", "maintain course", "progression"],
+        ["recovery", "rest", "maintain recovery", "manage fatigue"]
       ]
     }
   },
@@ -54,13 +54,13 @@
     "expected": {
       "answer": "The user trains very frequently with limited recovery, increasing the risk of overtraining.",
       "findings": [
-        "high frequency",
-        "limited recovery",
-        "overtraining risk"
+        ["high frequency", "frequent", "every day", "too many days"],
+        ["limited recovery", "lack of rest", "insufficient rest", "low rest"],
+        ["overtraining", "burnout", "fatigue", "overusing"]
       ],
       "recommendations": [
-        "add rest days",
-        "reduce volume"
+        ["rest day", "add rest", "take off", "more rest"],
+        ["reduce volume", "lower sets", "cut back", "scale back"]
       ]
     }
   },
@@ -76,12 +76,12 @@
     "expected": {
       "answer": "Training frequency is inconsistent, making progressive overload difficult to achieve.",
       "findings": [
-        "inconsistent training",
-        "low frequency"
+        ["inconsistent", "irregular", "missed days", "interruption", "streak"],
+        ["low frequency", "infrequent", "not enough days", "sporadic"]
       ],
       "recommendations": [
-        "train consistently",
-        "follow a schedule"
+        ["consistently", "regularly", "follow through", "stick to"],
+        ["schedule", "routine", "fixed days", "plan"]
       ]
     }
   },
@@ -95,15 +95,15 @@
       }
     },
     "expected": {
-      "answer": "The user follows a balanced program with good exercise variety, appropriate recovery, and steady progression.",
+      "answer": "The user follows a balanced program within core lifts with steady progression, but has minimal exercise variety.",
       "findings": [
-        "balanced program",
-        "exercise variety",
-        "steady progression"
+        ["balanced", "evenly distributed", "stable scheduling", "equal sets"],
+        ["improving", "upward trend", "progression", "improving across"],
+        ["variety is minimal", "only includes", "concentrated", "limited in variety"]
       ],
       "recommendations": [
-        "maintain program",
-        "continue progression"
+        ["maintain", "keep going", "continue", "balanced within", "foundation"],
+        ["round out", "variety", "kinds of exercises", "goal", "suggest"]
       ]
     }
   }

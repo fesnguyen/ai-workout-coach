@@ -1,0 +1,110 @@
+{
+  "name": "David",
+  "workouts": [
+    {
+      "date": "2026-01-03",
+      "exercise": "Bench Press",
+      "sets": [
+        {
+          "reps": 8,
+          "weight": 65,
+          "unit": "kg"
+        },
+        {
+          "reps": 7,
+          "weight": 65,
+          "unit": "kg"
+        },
+        {
+          "reps": 6,
+          "weight": 65,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-01-24",
+      "exercise": "Bench Press",
+      "sets": [
+        {
+          "reps": 8,
+          "weight": 65,
+          "unit": "kg"
+        },
+        {
+          "reps": 7,
+          "weight": 65,
+          "unit": "kg"
+        },
+        {
+          "reps": 6,
+          "weight": 65,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-02-18",
+      "exercise": "Bench Press",
+      "sets": [
+        {
+          "reps": 8,
+          "weight": 65,
+          "unit": "kg"
+        },
+        {
+          "reps": 7,
+          "weight": 65,
+          "unit": "kg"
+        },
+        {
+          "reps": 6,
+          "weight": 65,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-03-20",
+      "exercise": "Bench Press",
+      "sets": [
+        {
+          "reps": 8,
+          "weight": 65,
+          "unit": "kg"
+        },
+        {
+          "reps": 7,
+          "weight": 65,
+          "unit": "kg"
+        },
+        {
+          "reps": 6,
+          "weight": 65,
+          "unit": "kg"
+        }
+      ]
+    },
+    {
+      "date": "2026-04-15",
+      "exercise": "Bench Press",
+      "sets": [
+        {
+          "reps": 8,
+          "weight": 65,
+          "unit": "kg"
+        },
+        {
+          "reps": 7,
+          "weight": 65,
+          "unit": "kg"
+        },
+        {
+          "reps": 6,
+          "weight": 65,
+          "unit": "kg"
+        }
+      ]
+    }
+  ]
+}
