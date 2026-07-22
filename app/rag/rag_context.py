@@ -42,6 +42,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from app.llm.base_generator import BaseGenerator
+from app.prompts.system_prompt_builder import SystemPromptBuilder
 from app.rag.embedding.base_embedder import BaseEmbedder
 from app.rag.ingestion.document_chunker import DocumentChunker
 from app.rag.ingestion.document_hasher import DocumentHasher
@@ -49,7 +50,7 @@ from app.rag.ingestion.document_loader import DocumentLoader
 from app.rag.ingestion.index_planner import IndexPlanner
 from app.rag.ingestion.ingestion_service import IngestionService
 from app.rag.ingestion.manifest_store import ManifestStore
-from app.rag.retrieval.prompt_builder import PromptBuilder
+from app.rag.retrieval.rag_prompt_builder import RAGPromptBuilder
 from app.rag.retrieval.query_analyzer import QueryAnalyzer
 from app.rag.retrieval.query_normalizer import QueryNormalizer
 from app.rag.retrieval.query_preprocessor import QueryPreprocessor
@@ -71,6 +72,7 @@ class RAGContext:
         *,
         generator: BaseGenerator,
         embedder: BaseEmbedder,
+        system_prompt_builder: SystemPromptBuilder,
         knowledge_path: Path,
         database_path: Path,
     ) -> None:
@@ -80,7 +82,10 @@ class RAGContext:
 
         self.generator = generator
 
-        self.prompt_builder = PromptBuilder()
+        self.system_prompt_builder = system_prompt_builder
+        self.rag_prompt_builder = RAGPromptBuilder(
+            self.system_prompt_builder,
+        )
 
         self.loader = DocumentLoader(
             knowledge_path=knowledge_path,

@@ -1,5 +1,4 @@
 from __future__ import annotations
-import uuid
 
 from app.agent.tool_executor import ToolExecutor
 from app.api.api_schemas import ChatRequest, ChatResponse
@@ -9,7 +8,7 @@ from app.llm.llm_schemas import (
     GenerationResponse,
     Message,
 )
-from app.prompts.context_prompt_builder import ContextPromptBuilder
+from app.prompts.system_prompt_builder import SystemPromptBuilder
 
 
 class Agent:
@@ -31,14 +30,13 @@ class Agent:
         self,
         generator: BaseGenerator,
         tool_executor: ToolExecutor,
-        context_prompt_builder: ContextPromptBuilder,
+        system_prompt_builder: SystemPromptBuilder,
         max_iterations: int = 5,
     ) -> None:
         self._generator = generator
         self._tool_executor = tool_executor
         self._max_iterations = max_iterations
-
-        self._context_prompt_builder = context_prompt_builder
+        self._system_prompt_builder = system_prompt_builder
 
     async def chat(
         self,
@@ -57,9 +55,9 @@ class Agent:
             ),
         ]
 
-        if previous_response_id is None:
+        if not previous_response_id:
             history = [
-                *self._context_prompt_builder.build(),
+                *self._system_prompt_builder.build_agent_prompt(),
                 *history,
             ]
 

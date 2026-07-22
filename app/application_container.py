@@ -13,7 +13,7 @@ from app.configs.llm_settings import llm_settings
 from app.configs.rag_settings import rag_settings
 from app.llm.base_generator import BaseGenerator
 from app.llm.generator_factory import GeneratorFactory
-from app.prompts.context_prompt_builder import ContextPromptBuilder
+from app.prompts.system_prompt_builder import SystemPromptBuilder
 from app.rag.embedding.base_embedder import BaseEmbedder
 from app.rag.embedding.embedder_factory import EmbedderFactory
 from app.rag.rag_service import RAGService
@@ -31,6 +31,9 @@ class ApplicationContainer:
     """
 
     def __init__(self) -> None:
+        # Utilities
+        self.system_prompt_builder = SystemPromptBuilder()
+
         # Generator
         self.generator: BaseGenerator = GeneratorFactory.create(
             provider=llm_settings.llm_provider,
@@ -49,6 +52,7 @@ class ApplicationContainer:
         self.rag_service = RAGService(
             generator=self.generator,
             embedder=self.embedder,
+            system_prompt_builder=self.system_prompt_builder,
             knowledge_path=rag_settings.rag_knowledge_path,
             database_path=rag_settings.rag_database_path,
         )
@@ -56,6 +60,7 @@ class ApplicationContainer:
         # Workout analysis
         self.workout_service = WorkoutService(
             generator=self.generator,
+            system_prompt_builder=self.system_prompt_builder,
         )
 
         # Tool registry
@@ -65,9 +70,6 @@ class ApplicationContainer:
         registry.register(WorkoutAnalyzerTool(self.workout_service))
 
         self.tool_executor = ToolExecutor(registry)
-
-        # Prompt builder
-        self.context_prompt_builder = ContextPromptBuilder()
 
         # Async dependencies (initialized later)
         self._postgres_pool = None
@@ -89,7 +91,7 @@ class ApplicationContainer:
         self.agent = Agent(
             generator=self.generator,
             tool_executor=self.tool_executor,
-            context_prompt_builder=self.context_prompt_builder,
+            system_prompt_builder=self.system_prompt_builder,
         )
 
     async def shutdown(self) -> None:

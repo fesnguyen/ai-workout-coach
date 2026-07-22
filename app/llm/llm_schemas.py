@@ -67,3 +67,19 @@ class GenerationResponse(BaseModel):
     tool_calls: list[ToolCall] = Field(default_factory=list)
 
     finish_reason: str | None = None
+
+    token_usage: TokenUsage | None = None
+
+class TokenUsage(BaseModel):
+    """
+    Token usage information for a generation response.
+    """
+
+    input_tokens: int | None = None
+
+    output_tokens: int | None = None
+
+    total_tokens: int | None = None
+
+    reused_tokens: int | None = None
+

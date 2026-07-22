@@ -3,6 +3,7 @@ from pathlib import Path
 
 from app.llm.base_generator import BaseGenerator
 from app.llm.llm_schemas import GenerationRequest, Message
+from app.prompts.system_prompt_builder import SystemPromptBuilder
 from app.rag.embedding.base_embedder import BaseEmbedder
 from app.rag.retrieval.query_analyzer import Classification, QueryAnalysis
 from app.rag.retrieval.query_preprocessor import ProcessedQuery
@@ -25,6 +26,7 @@ class RAGService:
         self,
         generator: BaseGenerator,
         embedder: BaseEmbedder,
+        system_prompt_builder: SystemPromptBuilder,
         knowledge_path: Path,
         database_path: Path,
     ) -> None:
@@ -32,6 +34,7 @@ class RAGService:
         self._context = RAGContext(
             generator=generator,
             embedder=embedder,
+            system_prompt_builder=system_prompt_builder,
             knowledge_path=knowledge_path,
             database_path=database_path,
         )
@@ -73,7 +76,7 @@ class RAGService:
             )
         
         # Build the system message with retrieval data
-        generator_messages = self._context.prompt_builder.build(
+        generator_messages = self._context.rag_prompt_builder.build(
             query=rewritten_query,
             chunks=chunks,
         )
