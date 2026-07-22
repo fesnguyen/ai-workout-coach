@@ -4,10 +4,12 @@ from pathlib import Path
 
 from app.api.api_schemas import UserProfile, WorkoutAnalyzeRequest
 from app.application_container import ApplicationContainer
+from evaluation.evaluators.adversarial_evaluator import evaluate_adversarial
 from evaluation.evaluators.agent_evaluator import evaluate_agent
 from evaluation.judges.rag_search.rag_search_registry import build_rag_judges
 from evaluation.judges.workout_analysis.workout_analysis_registry import build_workout_judges
 from evaluation.judges.agent.agent_registry import build_agent_judges
+from evaluation.judges.adversarial.adversarial_registry import build_adversarial_judges
 
 from evaluation.models import EvaluationContext, EvaluationResult, ExpectedAnswer, ExpectedWorkoutAnalysis, SearchCase, WorkoutAnalysisCase
 from evaluation.report_builder import ReportBuilder
@@ -18,6 +20,7 @@ JUDGE_REGISTRY = {
     "rag": build_rag_judges,
     "workout": build_workout_judges,
     "agent": build_agent_judges,
+    "adversarial": build_adversarial_judges,
 }
 
 
@@ -29,31 +32,45 @@ async def main() -> None:
     try:
         results: list[EvaluationResult] = []
 
-        # results.extend(
-        #     await evaluate_rag_search(
-        #         container=container,
-        #         judges=JUDGE_REGISTRY["rag"](container)
-        #     )
-        # )
+        #
+        # RAG search evaluation.
+        #
+        results.extend(
+            await evaluate_rag_search(
+                container=container,
+                judges=JUDGE_REGISTRY["rag"](container)
+            )
+        )
 
         #
         # Workout analysis evaluation.
         #
-        # results.extend(
-        #     await evaluate_workout_analysis(
-        #         container=container,
-        #         judges=JUDGE_REGISTRY["workout"](container)
-        #     )
-        # )
+        results.extend(
+            await evaluate_workout_analysis(
+                container=container,
+                judges=JUDGE_REGISTRY["workout"](container)
+            )
+        )
+
+        #
+        # Agent evaluation.
+        #
         results.extend(
             await evaluate_agent(
                 container=container,
                 judges=JUDGE_REGISTRY["agent"](container)
             )
         )
-        # results.extend(
-        #     await evaluate_adversarial(container)
-        # )
+
+        #
+        # Adversarial evaluation.
+        #
+        results.extend(
+            await evaluate_adversarial(
+                container=container,
+                judges=JUDGE_REGISTRY["adversarial"](container)
+            )
+        )
 
         ReportBuilder().build(
             results=results,

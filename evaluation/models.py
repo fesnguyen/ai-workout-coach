@@ -47,6 +47,19 @@ class AgentCase:
 
 
 @dataclass(slots=True)
+class ExpectedAdversarial:
+    should_refuse: bool
+    reason: str
+
+
+@dataclass(slots=True)
+class AdversarialCase:
+    id: str
+    request: ChatRequest
+    expected: ExpectedAdversarial
+
+
+@dataclass(slots=True)
 class EvaluationContext:
     """
     Shared context passed to every evaluation judge.

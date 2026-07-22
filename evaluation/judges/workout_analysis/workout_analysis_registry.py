@@ -6,7 +6,7 @@ def build_workout_judges(
     container: ApplicationContainer,
 ):
     return [
-        # FaithfulnessJudge(container.generator),
+        FaithfulnessJudge(container.generator),
         AnalysisCoverageJudge(),
         RecommendationJudge(),
     ]
