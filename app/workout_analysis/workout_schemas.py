@@ -1,14 +1,20 @@
 from __future__ import annotations
 
 from datetime import date
-from typing import Any, Literal
+from typing import Annotated, Any, Literal
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StringConstraints
 
 
 WeightUnit = Literal["kg", "lb"]
 
-ExerciseName = str
+ExerciseName = Annotated[
+    str,
+    StringConstraints(
+        strip_whitespace=True,
+        min_length=1,
+    ),
+]
 
 WorkoutQuery = str
 
@@ -36,7 +42,7 @@ class ExerciseEntry(BaseModel):
     """
 
     date: date
-    exercise: ExerciseName = Field(strip_whitespace=True, min_length=1)
+    exercise: ExerciseName
     sets: list[ExerciseSet] = Field(min_length=1)
 
 
