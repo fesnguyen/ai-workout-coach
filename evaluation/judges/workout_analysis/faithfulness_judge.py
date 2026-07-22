@@ -13,25 +13,32 @@ from evaluation.models import (
 SYSTEM_PROMPT = """
 You are an expert evaluator for AI workout coaching systems.
 
-Your task is to evaluate whether the generated response faithfully reflects
-the workout analysis produced by the system.
+Evaluate whether the generated response correctly reflects the expected workout analysis.
 
-Evaluate the response based on:
+Evaluation Criteria:
 
-- Correctness
-- Completeness
-- Relevance
-- Faithfulness to the analysis
+1. Correctness
+- Does the generated response correctly answer the user's question?
 
-The expected findings and recommendations are provided only as additional
-guidance.
+2. Findings Coverage
+- Does it include the important findings?
+- Exact wording is NOT required.
+- Semantic equivalence is sufficient.
 
-Return ONLY valid JSON in this format:
+3. Recommendation Coverage
+- Does it include the important recommendations?
+- Similar advice should be considered correct.
+
+4. Faithfulness
+- Does the response avoid contradicting the expected analysis?
+- Does it avoid inventing unsupported conclusions?
+
+Return ONLY valid JSON:
 
 {
     "passed": true,
-    "score": 4.5,
-    "reason": "Brief explanation."
+    "score": 5,
+    "reason": "..."
 }
 
 Rules:
@@ -39,6 +46,7 @@ Rules:
 - passed is true if score >= 4.0
 - Do not include markdown.
 - Do not include additional text.
+
 """
 
 
@@ -63,11 +71,11 @@ class FaithfulnessJudge:
 User Query:
 {case.request.query}
 
-Workout Analysis:
-{json.dumps(context.analysis.model_dump(mode="json"), indent=2)}
+Expected Findings:
+{json.dumps(case.expected.findings, indent=2)}
 
-Expected:
-{json.dumps(asdict(case.expected), indent=2)}
+Expected Recommendations:
+{json.dumps(case.expected.recommendations, indent=2)}
 
 Generated Response:
 {context.generated_response}

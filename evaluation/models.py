@@ -49,7 +49,6 @@ class EvaluationContext:
     response: RAGResponse | None = None
 
     # Workout history evaluation
-    analysis: AnalysisResult | None = None
     generated_response: str | None = None
 
 
