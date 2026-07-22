@@ -1,5 +1,12 @@
 # Evaluation Report
 
+## Setup/Rerun
+```
+uv sync
+
+python -m evaluation.runner
+```
+
 ## Summary
 
 - Total Evaluations: 46
