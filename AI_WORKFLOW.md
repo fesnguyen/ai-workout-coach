@@ -8,6 +8,21 @@ I used **OpenAI Chat, Gemini Chat, Claude Chat, and GitHub Copilot - Code Comple
 * **OpenAI Chat** was my primary AI partner during the implementation. I used it for designing the architecture, evaluating different approaches, arguing and debating the best solution, retrieving information, generating code, fixing bugs, and reviewing implementation decisions.
 * **GitHub Copilot** was mainly used to speed up coding by generating boilerplate code and assisting while implementing features.
 
+### Feature I Didn't Use
+#### GitHub Copilot Agent
+
+**Reason**
+
+* I intentionally chose not to use GitHub Copilot Agent during this exercise.
+
+* Although it can quickly generate complete features (for example, implementing an entire RAG pipeline with Chroma or generating a complete memory module), I believe this level of automation reduces my control over the design and implementation process. It becomes more difficult to evaluate architectural decisions, understand the generated code in depth, and ensure that every component aligns with my intended design.
+
+* In a long-term production environment, I think Copilot Agent is most effective after the project's architecture, design decisions, coding standards, and development guidelines have already been established. At that stage, it can significantly accelerate implementation while still operating within well-defined constraints.
+
+* For this take-home exercise, however, I wanted the implementation process to accurately reflect my own engineering decisions and problem-solving approach. Since part of the evaluation is likely based on how I designed and built the solution, relying on an autonomous coding agent could have obscured that process and made it harder for reviewers to assess my reasoning and technical judgment.
+
+* For these reasons, I deliberately excluded GitHub Copilot Agent from my development workflow while still using GitHub Copilot's code completion features to improve productivity.
+
 ---
 
 ## Examples Where I Rejected AI Suggestions
