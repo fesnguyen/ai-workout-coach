@@ -85,9 +85,16 @@ class WorkoutService:
             analysis_request.user_profile.workouts
         )
 
+        workout_history = analysis_request.user_profile.workouts
+
+        # Normalize the workout history to ensure consistent units
+        normalized_history = await self._context.normalizer.normalize(
+            workout_history,
+        )
+
         # Run core analytics to compute volume, frequency, progression, and PR metrics
         analysis = await self._context.analyzer.analyze(
-            analysis_request.user_profile.workouts
+            normalized_history
         )
 
         # Compress the raw metrics to fit context limits while retaining relevant query details

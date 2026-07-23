@@ -13,14 +13,17 @@ class WorkoutValidator:
     """
     Validates workout history before analysis.
 
-    Pydantic is responsible for schema validation.
-    This validator enforces business rules.
+    Responsibilities:
+    - Ensure required workout data exists.
+    - Verify chronological ordering.
+    - Validate business constraints.
+    - Reject impossible values.
     """
 
     async def validate(
         self,
         history: ExerciseHistory,
-    ) -> None:
+    ) ->None:
         if not history:
             raise WorkoutValidationError(
                 "Workout history is empty."
@@ -33,7 +36,7 @@ class WorkoutValidator:
     @staticmethod
     def _validate_chronology(
         history: ExerciseHistory,
-    ) -> None:
+    ) ->None:
         previous_date = history[0].date
 
         for entry in history[1:]:
@@ -47,7 +50,7 @@ class WorkoutValidator:
     @staticmethod
     def _validate_exercises(
         history: ExerciseHistory,
-    ) -> None:
+    ) ->None:
         for entry in history:
             if not entry.exercise.strip():
                 raise WorkoutValidationError(
@@ -57,7 +60,7 @@ class WorkoutValidator:
     @staticmethod
     def _validate_sets(
         history: ExerciseHistory,
-    ) -> None:
+    ) ->None:
         for entry in history:
             if not entry.sets:
                 raise WorkoutValidationError(
@@ -65,12 +68,21 @@ class WorkoutValidator:
                 )
 
             for exercise_set in entry.sets:
+
                 if exercise_set.reps <= 0:
                     raise WorkoutValidationError(
                         f"{entry.exercise} contains an invalid repetition count."
                     )
 
+                # Zero weight is valid (bodyweight exercises).
                 if exercise_set.weight < 0:
                     raise WorkoutValidationError(
                         f"{entry.exercise} contains a negative weight."
                     )
+
+                # Optional, if your schema includes a unit field.
+                if hasattr(exercise_set, "unit"):
+                    if exercise_set.unit not in {"kg", "lb"}:
+                        raise WorkoutValidationError(
+                            f"{entry.exercise} contains an unsupported weight unit."
+                        )
